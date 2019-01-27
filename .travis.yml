@@ -5,7 +5,7 @@ cache:
     # General SwiftPM
     - .build
     # XCodebuild cache
-    - build  
+    - Build  
 
 matrix:
   include:
