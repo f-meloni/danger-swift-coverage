@@ -7,14 +7,14 @@ protocol XcodeCoverageFileFinding {
 enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
     enum Errors: LocalizedError {
         case xcresultNotFound
-        case xcodeCovNotFound
+        case xcodeCovReportNotFound
         
         var errorDescription: String? {
             switch self {
             case .xcresultNotFound:
                 return "Could not find the xcresult file"
-            case .xcodeCovNotFound:
-                return "Could not find the xcodecov file"
+            case .xcodeCovReportNotFound:
+                return "Could not find the xccovreport file"
             }
         }
     }
@@ -41,7 +41,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
         let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresult).map { xcresult + "/" + $0 }
         
         guard let coverageFile = firstCoverageFile(fromXcresultContent: xcresultContent, fileManager: fileManager) else {
-            throw Errors.xcodeCovNotFound
+            throw Errors.xcodeCovReportNotFound
         }
         
         return coverageFile

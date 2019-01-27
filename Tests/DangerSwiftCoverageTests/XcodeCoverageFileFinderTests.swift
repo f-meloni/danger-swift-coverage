@@ -26,7 +26,7 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
         }
         
         XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager)) { error in
-             XCTAssertEqual(error.localizedDescription, "Could not find the xcodecov file")
+             XCTAssertEqual(error.localizedDescription, "Could not find the xccovreport file")
         }
     }
     
