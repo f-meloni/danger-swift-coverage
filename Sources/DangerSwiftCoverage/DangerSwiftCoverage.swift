@@ -2,15 +2,15 @@ import Foundation
 import Danger
 
 public enum Coverage {
-    public static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float) {
-        xcodeBuildCoverage(derivedDataFolder: derivedDataFolder, minimumCoverage: minimumCoverage, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, danger: Danger())
+    public static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, excludedTargets: [String] = []) {
+        xcodeBuildCoverage(derivedDataFolder: derivedDataFolder, minimumCoverage: minimumCoverage, excludedTargets: excludedTargets, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, danger: Danger())
     }
     
-    static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, danger: DangerDSL) {
+    static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, excludedTargets: [String], fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, danger: DangerDSL) {
         let paths = modifiedFilesAbsolutePaths(fileManager: fileManager, danger: danger)
         
         do {
-            let report = try xcodeBuildCoverageParser.coverage(derivedDataFolder: derivedDataFolder, files: paths)
+            let report = try xcodeBuildCoverageParser.coverage(derivedDataFolder: derivedDataFolder, files: paths, excludedTargets: excludedTargets)
             sendReport(report, minumumCoverage: minimumCoverage, danger: danger)
         } catch {
             danger.fail("Failed to get the coverage - Error: \(error.localizedDescription)")
