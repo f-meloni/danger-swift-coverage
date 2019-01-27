@@ -26,16 +26,16 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
         }
         
         XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager)) { error in
-             XCTAssertEqual(error.localizedDescription, "Could not find the xcodecov file")
+             XCTAssertEqual(error.localizedDescription, "Could not find the xccovreport file")
         }
     }
     
     func testItReturnsTheCorrectCoverageFile() throws {
         fileManager.contentResult = { fileName in
-            return fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "test.xcresult" ? ["1_test"] : ["1_test/action.xcodecov"])
+            return fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "derived/Logs/Test/test.xcresult" ? ["1_test"] : ["action.xccovreport"])
         }
         
-        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "1_test/action.xcodecov")
+        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "derived/Logs/Test/test.xcresult/1_test/action.xccovreport")
     }
 }
 

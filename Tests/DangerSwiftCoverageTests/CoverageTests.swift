@@ -59,11 +59,15 @@ final class CoverageTests: XCTestCase {
         XCTAssertEqual(dsl.markdowns.map { $0.message }, [
             """
             ## Danger.framework: Coverage: 43.44%
+            | File | Coverage ||
+            | --- | --- | --- |
             BitBucketServerDSL.swift | 100.0% | ✅
             Danger.swift | 0.0% | ❌\n
             """,
             """
             ## RunnerLib.framework: Coverage: 66.67%
+            | File | Coverage ||
+            | --- | --- | --- |
             ImportsFinder.swift | 100.0% | ✅
             HelpMessagePresenter.swift | 100.0% | ✅\n
             """
