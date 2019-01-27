@@ -32,10 +32,10 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
     
     func testItReturnsTheCorrectCoverageFile() throws {
         fileManager.contentResult = { fileName in
-            return fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "test.xcresult" ? ["1_test"] : ["1_test/action.xcodecov"])
+            return fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "derived/Logs/Test/test.xcresult" ? ["1_test"] : ["action.xccovreport"])
         }
         
-        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "1_test/action.xcodecov")
+        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "derived/Logs/Test/test.xcresult/1_test/action.xccovreport")
     }
 }
 

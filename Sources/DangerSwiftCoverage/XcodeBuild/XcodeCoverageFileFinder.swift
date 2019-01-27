@@ -31,14 +31,14 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
                 throw Errors.xcresultNotFound
         }
         
-        let xcresult = xcresults.sorted(by: { (left, right) -> Bool in
+        let xcresult = testFolder + xcresults.sorted(by: { (left, right) -> Bool in
             let leftModificationDate = fileManager.modificationDate(forFileAtPath: left)?.timeIntervalSince1970 ?? 0
             let rightModificationDate = fileManager.modificationDate(forFileAtPath: right)?.timeIntervalSince1970 ?? 0
             
             return leftModificationDate > rightModificationDate
         }).first!
         
-        let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresult)
+        let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresult).map { xcresult + "/" + $0 }
         
         guard let coverageFile = firstCoverageFile(fromXcresultContent: xcresultContent, fileManager: fileManager) else {
             throw Errors.xcodeCovNotFound
@@ -50,8 +50,8 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
         return xcresultContent?.lazy.compactMap { directory -> String? in
             return (try? fileManager.contentsOfDirectory(atPath: directory).compactMap { file -> String? in
-                    return file.contains("action.xcodecov") ? file : nil
-                })?.first
+                return file == "action.xccovreport" ? directory + "/" + file : nil
+            })?.first
         }.first
     }
 }
