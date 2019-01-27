@@ -7,7 +7,7 @@ struct XcodeBuildCoverage: Decodable, PercentageCoverage {
     let targets: [Target]
     
     func filteringTargets(withFiles files: [String]) -> XcodeBuildCoverage {
-        let targets = self.targets.map { $0.filteringFiles(withFiles: files) }.filter { $0.files.count > 0 }
+        let targets = self.targets.map { $0.filteringFiles(withFiles: files) }.filter { $0.files.count > 0 && !$0.name.contains(".xctest") }
         return XcodeBuildCoverage(coveredLines: coveredLines, executableLines: executableLines, lineCoverage: lineCoverage, targets: targets)
     }
 }
