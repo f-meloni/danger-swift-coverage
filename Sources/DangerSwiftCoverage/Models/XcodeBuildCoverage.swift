@@ -43,7 +43,6 @@ extension PercentageCoverage {
         let percentageCoverage = lineCoverage * 100
         
         // Round the float to 2 decimal places
-        let divisor = powf(10.0, 2.0)
-        return (percentageCoverage * divisor).rounded() / divisor
+        return (percentageCoverage * 100).rounded() / 100
     }
 }

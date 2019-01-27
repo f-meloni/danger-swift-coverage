@@ -20,7 +20,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedDataFolder)
         XCTAssertEqual(FakeXcodeCoverageFileFinder.result, MockedXcCovJSONParser.receivedFile)
         
-        XCTAssertEqual(result.messages, ["Project coverage: 50.09"])
+        XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
         
         let firstSection = result.sections[0]
         XCTAssertEqual(firstSection.titleText, "Danger.framework: Coverage: 43.44")
@@ -50,7 +50,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedDataFolder)
         XCTAssertEqual(FakeXcodeCoverageFileFinder.result, MockedXcCovJSONParser.receivedFile)
         
-        XCTAssertEqual(result.messages, ["Project coverage: 50.09"])
+        XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
         
         let firstSection = result.sections[0]
         XCTAssertEqual(firstSection.titleText, "Danger.framework: Coverage: 43.44")
@@ -83,7 +83,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         
         let result = try! XcodeBuildCoverageParser.coverage(derivedDataFolder: "derived", files: files, coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
         
-        XCTAssertEqual(result.messages, ["Project coverage: 50.09"])
+        XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
     }
 }
 

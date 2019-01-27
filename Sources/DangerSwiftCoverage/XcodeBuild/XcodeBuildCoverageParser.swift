@@ -16,7 +16,7 @@ final class XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
         var coverage = try JSONDecoder().decode(XcodeBuildCoverage.self, from: data)
         coverage = coverage.filteringTargets(withFiles: files)
         
-        return Report(messages: ["Project coverage: \(coverage.percentageCoverage.description)"],
+        return Report(messages: ["Project coverage: \(coverage.percentageCoverage.description)%"],
                  sections: coverage.targets.map { ReportSection(fromTarget: $0) })
     }
 }
