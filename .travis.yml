@@ -1,0 +1,21 @@
+anguage: generic
+
+cache:
+  directories:
+    # General SwiftPM
+    - .build
+    # XCodebuild cache
+    - build  
+
+matrix:
+  include:
+    - os: osx	
+      osx_image: xcode10	
+      install:	
+        - gem install bundler	
+        - bundle install
+        - npm install -g danger	
+      script:
+        - swift package generate-xcodeproj
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`	
+        - DEBUG="*" swift run danger-swift ci
