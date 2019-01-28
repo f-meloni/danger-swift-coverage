@@ -1,3 +1,3 @@
 # DangerSwiftCoverage
 
-A description of this package.
+Show the coverage of the modified/created files on your PRs.
