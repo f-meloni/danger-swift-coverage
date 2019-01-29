@@ -9,5 +9,3 @@ struct ShellOutExecutor: ShellOutExecuting {
         return try shellOut(to: command)
     }
 }
-
-

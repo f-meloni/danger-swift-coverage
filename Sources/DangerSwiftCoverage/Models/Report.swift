@@ -11,16 +11,16 @@ struct ReportSection {
 extension ReportSection {
     func markdown(minimumCoverage: Float) -> String {
         var markdown = "## \(titleText)\n"
-        
+
         markdown += """
         | File | Coverage ||
         | --- | --- | --- |\n
         """
-        
+
         markdown += items.map {
             "\($0.fileName) | \($0.coverage)% | \($0.coverage > minimumCoverage ? "✅" : "❌")\n"
             }.joined()
-        
+
         return markdown
     }
 }
