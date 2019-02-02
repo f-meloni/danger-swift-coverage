@@ -3,8 +3,8 @@ import Foundation
 struct SPMCoverage: Decodable {
     let data: [SPMCoverageData]
     
-    func filteringFiles(withFiles files: [String], fileManager: FileManager) -> SPMCoverage {
-        let data = self.data.map { $0.filteringFiles(withFiles: files, fileManager: fileManager) }
+    func filteringFiles(withFiles files: [String]) -> SPMCoverage {
+        let data = self.data.map { $0.filteringFiles(withFiles: files) }
         return SPMCoverage(data: data)
     }
 }
@@ -12,8 +12,8 @@ struct SPMCoverage: Decodable {
 struct SPMCoverageData: Decodable {
     let files: [SPMCoverageFile]
     
-    func filteringFiles(withFiles files: [String], fileManager: FileManager) -> SPMCoverageData {
-        let files = self.files.filter { files.contains($0.filename) }.map { $0.byRemovingPath(path: fileManager.currentDirectoryPath) }
+    func filteringFiles(withFiles files: [String]) -> SPMCoverageData {
+        let files = self.files.filter { files.contains($0.filename) }
         return SPMCoverageData(files: files)
     }
 }
@@ -21,10 +21,6 @@ struct SPMCoverageData: Decodable {
 struct SPMCoverageFile: Decodable {
     let filename: String
     let summary: SPMCoverageSummary
-    
-    func byRemovingPath(path: String) -> SPMCoverageFile {
-        return SPMCoverageFile(filename: filename.deletingPrefix(path), summary: summary)
-    }
 }
 
 struct SPMCoverageSummary: Decodable {
@@ -46,12 +42,5 @@ struct SPMCoverageSummary: Decodable {
         let count: Int
         let covered: Int
         let percent: Float
-    }
-}
-
-private extension String {
-    func deletingPrefix(_ prefix: String) -> String {
-        guard hasPrefix(prefix) else { return self }
-        return String(dropFirst(prefix.count))
     }
 }

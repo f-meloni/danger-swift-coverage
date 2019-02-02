@@ -78,14 +78,6 @@ final class CoverageTests: XCTestCase {
     }
 }
 
-fileprivate final class FakeCurrentPathProvider: FileManager {
-    let fakePath = "/usr/franco"
-    
-    override var currentDirectoryPath: String {
-        return fakePath
-    }
-}
-
 fileprivate final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static var receivedFiles: [String]!
     static var receivedDataFolder: String!
@@ -99,7 +91,6 @@ fileprivate final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing 
         var errorDescription: String? {
             return "Fake Error"
         }
-        
     }
     
     static let fakeReport = Report(messages: ["TestMessage1", "TestMessage2"],

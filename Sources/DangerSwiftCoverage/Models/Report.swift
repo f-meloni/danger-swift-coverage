@@ -1,3 +1,5 @@
+import Foundation
+
 struct Report {
     let messages: [String]
     let sections: [ReportSection]
@@ -16,9 +18,9 @@ extension ReportSection {
 }
 
 extension ReportSection {
-    init?(from spm: SPMCoverage) {
+    init(fromSPM spm: SPMCoverage, fileManager: FileManager) {
         self.titleText = nil
-        self.items = spm.data.flatMap { $0.files.map { ReportFile(fileName: $0.filename, coverage: $0.summary.percent) } }  
+        self.items = spm.data.flatMap { $0.files.map { ReportFile(fileName: $0.filename.deletingPrefix(fileManager.currentDirectoryPath + "/"), coverage: $0.summary.percent) } }  
     }
 }
 
@@ -42,4 +44,11 @@ extension ReportSection {
 struct ReportFile {
     let fileName: String
     let coverage: Float
+}
+
+private extension String {
+    func deletingPrefix(_ prefix: String) -> String {
+        guard hasPrefix(prefix) else { return self }
+        return String(dropFirst(prefix.count))
+    }
 }
