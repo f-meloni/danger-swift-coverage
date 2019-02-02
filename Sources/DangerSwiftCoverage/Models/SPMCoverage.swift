@@ -3,8 +3,8 @@ import Foundation
 struct SPMCoverage: Decodable {
     let data: [SPMCoverageData]
     
-    func filteringFiles(withFiles files: [String]) -> SPMCoverage {
-        let data = self.data.map { $0.filteringFiles(withFiles: files) }
+    func filteringFiles(notOn files: [String]) -> SPMCoverage {
+        let data = self.data.map { $0.filteringFiles(notOn: files) }
         return SPMCoverage(data: data)
     }
 }
@@ -12,7 +12,7 @@ struct SPMCoverage: Decodable {
 struct SPMCoverageData: Decodable {
     let files: [SPMCoverageFile]
     
-    func filteringFiles(withFiles files: [String]) -> SPMCoverageData {
+    func filteringFiles(notOn files: [String]) -> SPMCoverageData {
         let files = self.files.filter { files.contains($0.filename) }
         return SPMCoverageData(files: files)
     }

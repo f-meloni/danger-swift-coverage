@@ -9,7 +9,7 @@ enum SPMCoverageParser {
         let url = URL(fileURLWithPath: fileManager.currentDirectoryPath + "/" + spmCoverageFilePath)
         let data = try Data(contentsOf: url)
         let coverage = try JSONDecoder().decode(SPMCoverage.self, from: data)
-        let filteredCoverage = coverage.filteringFiles(withFiles: files)
+        let filteredCoverage = coverage.filteringFiles(notOn: files)
         
         return Report(messages: [], sections: [ReportSection(fromSPM: filteredCoverage, fileManager: fileManager)])
     }
