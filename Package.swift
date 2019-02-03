@@ -41,9 +41,7 @@ let package = Package(
 
     let config = PackageConfig([
         "komondor": [
-            "pre-push": "swift test",
             "pre-commit": [
-                "swift test",
                 "swift test --generate-linuxmain",
                 "swift run swiftformat .",
                 "swift run swiftlint autocorrect --path Sources/",
