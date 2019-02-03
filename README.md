@@ -43,7 +43,7 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
 ```
 
 - Create a folder called `DangerDependencies` on `Sources` with an empty file inside like [Fake.swift](Sources/DangerDependencies/Fake.swift)
-- To run danger use `swift run danger-swift command`
+- To run `Danger` use `swift run danger-swift command`
 - (Recommended) If you are using SPM to distribute your framework use [Rocket](https://github.com/f-meloni/Rocket) or similar to comment out all the dev depencencies from your `Package.swift` and avoid them to be downloaded and compiled with your framework.
 
 #### Marathon
