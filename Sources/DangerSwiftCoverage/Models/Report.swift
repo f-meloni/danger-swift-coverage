@@ -12,15 +12,15 @@ struct ReportSection {
 
 extension ReportSection {
     init(fromTarget target: Target) {
-        self.titleText = "\(target.name): Coverage: \(target.percentageCoverage)"
-        self.items = target.files.map { ReportFile(fileName: $0.name, coverage: $0.percentageCoverage) }
+        titleText = "\(target.name): Coverage: \(target.percentageCoverage)"
+        items = target.files.map { ReportFile(fileName: $0.name, coverage: $0.percentageCoverage) }
     }
 }
 
 extension ReportSection {
     init(fromSPM spm: SPMCoverage, fileManager: FileManager) {
-        self.titleText = nil
-        self.items = spm.data.flatMap { $0.files.map { ReportFile(fileName: $0.filename.deletingPrefix(fileManager.currentDirectoryPath + "/"), coverage: $0.summary.percent) } }  
+        titleText = nil
+        items = spm.data.flatMap { $0.files.map { ReportFile(fileName: $0.filename.deletingPrefix(fileManager.currentDirectoryPath + "/"), coverage: $0.summary.percent) } }
     }
 }
 
@@ -35,7 +35,7 @@ extension ReportSection {
 
         markdown += items.map {
             "\($0.fileName) | \($0.coverage)% | \($0.coverage > minimumCoverage ? "✅" : "❌")\n"
-            }.joined()
+        }.joined()
 
         return markdown
     }

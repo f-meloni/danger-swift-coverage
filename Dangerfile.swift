@@ -1,6 +1,6 @@
-import Danger 
-import DangerXCodeSummary
+import Danger
 import DangerSwiftCoverage
+import DangerXCodeSummary
 
 let danger = Danger()
 

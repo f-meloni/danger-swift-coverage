@@ -1,5 +1,5 @@
-import Foundation
 import Danger
+import Foundation
 
 public enum Coverage {
     public static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, excludedTargets: [String] = []) {
