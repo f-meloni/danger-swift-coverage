@@ -69,3 +69,5 @@ or, on your CI, execute:
 xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES
 ```
 
+## License
+This project is licensed under the terms of the MIT license. See the LICENSE file.
