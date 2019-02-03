@@ -14,3 +14,8 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
 
+- Enable "Gather the Coverage" on Xcode or run 
+```bash
+xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES
+```
+on your CI
