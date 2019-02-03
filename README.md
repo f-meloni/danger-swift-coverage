@@ -58,7 +58,7 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
 
 - (Recommended) Cache the `~/.danger-swift` folder
 
-### Use DangerSwiftCoverage 
+### Gather Coverage
 
 - Enable "Gather the Coverage" on Xcode 
 
