@@ -6,6 +6,46 @@ Show the coverage of the modified/created files on your PRs.
 
 ## Getting Started
 
+### Install DangerSwiftCoverage
+#### Swift Package Manager (More performant)
+You can use a "full SPM" solution to install both `danger-swift` and `DangerSwiftCoverage`.
+
+- Add to your `Package.swift`:
+
+```swift
+let package = Package(
+    ...
+    products: [
+        ...
+        .library(name: "DangerDeps", type: .dynamic, targets: ["Danger-Swift"]), // dev
+        ...
+    ],
+    dependencies: [
+        ...
+        // Danger Plugins
+        .package(url: "https://github.com/f-meloni/danger-swift-coverage", from: "0.1.0") // dev
+        ...
+    ],
+    targets: [
+        .target(name: "Danger-Swift", dependencies: ["Danger", "DangerSwiftCoverage"]), // dev
+        ...
+    ]
+)
+```
+
+- Add the correct import to your `Dangerfile.swift`:
+```swift
+import DangerSwiftCoverage
+
+Coverage.xcodeBuildCoverage(derivedDataFolder: "Build", 
+                            minimumCoverage: 50, 
+                            excludedTargets: ["DangerSwiftCoverageTests.xctest"])
+```
+
+- Run `swift run danger-swift command`
+- (Recommended) If you are using SPM to distribute your framework use [Rocket](https://github.com/f-meloni/Rocket) or similar to comment out all the dev depencencies from your `Package.swift` and avoid them to be downloaded and compiled with your framework.
+
+#### Marathon
 - Add this to your `Dangerfile.swift`
 
 ```swift
@@ -15,6 +55,10 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
                             minimumCoverage: 50, 
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
+
+- (Recommended) Cache the `~/.danger-swift` folder
+
+### Use DangerSwiftCoverage 
 
 - Enable "Gather the Coverage" on Xcode 
 
