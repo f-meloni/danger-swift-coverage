@@ -1,6 +1,6 @@
 # DangerSwiftCoverage
 
-Show the coverage of the modified/created files on your PRs.
+[Danger-Swift](https://github.com/danger/swift) plugin to show the coverage of the modified/created files.
 
 ![DangerSwiftCoverage](Images/DangerSwiftCoverage.png)
 
