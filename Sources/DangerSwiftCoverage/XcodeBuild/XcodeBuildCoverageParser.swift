@@ -17,6 +17,6 @@ enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
         coverage = coverage.filteringTargets(notOn: files, excludedTargets: excludedTargets)
 
         return Report(messages: ["Project coverage: \(coverage.percentageCoverage.description)%"],
-                 sections: coverage.targets.map { ReportSection(fromTarget: $0) })
+                      sections: coverage.targets.map { ReportSection(fromTarget: $0) })
     }
 }

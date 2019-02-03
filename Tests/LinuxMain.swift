@@ -3,5 +3,6 @@ import XCTest
 import DangerSwiftCoverageTests
 
 var tests = [XCTestCaseEntry]()
-tests += DangerSwiftCoverageTests.allTests()
+tests += DangerSwiftCoverageTests.__allTests()
+
 XCTMain(tests)

@@ -28,7 +28,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
 
         guard let xcresults = try? fileManager.contentsOfDirectory(atPath: testFolder).filter({ $0.split(separator: ".").last == "xcresult" }),
             xcresults.count > 0 else {
-                throw Errors.xcresultNotFound
+            throw Errors.xcresultNotFound
         }
 
         let xcresult = testFolder + xcresults.sorted(by: { (left, right) -> Bool in
@@ -49,8 +49,8 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
 
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
         return xcresultContent?.lazy.compactMap { directory -> String? in
-            return (try? fileManager.contentsOfDirectory(atPath: directory).compactMap { file -> String? in
-                return file == "action.xccovreport" ? directory + "/" + file : nil
+            (try? fileManager.contentsOfDirectory(atPath: directory).compactMap { file -> String? in
+                file == "action.xccovreport" ? directory + "/" + file : nil
             })?.first
         }.first
     }
