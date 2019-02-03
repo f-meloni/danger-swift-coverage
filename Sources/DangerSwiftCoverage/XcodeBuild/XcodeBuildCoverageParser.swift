@@ -4,7 +4,7 @@ protocol XcodeBuildCoverageParsing {
     static func coverage(derivedDataFolder: String, files: [String], excludedTargets: [String]) throws -> Report
 }
 
-final class XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
+enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static func coverage(derivedDataFolder: String, files: [String], excludedTargets: [String]) throws -> Report {
         return try coverage(derivedDataFolder: derivedDataFolder, files: files, excludedTargets: excludedTargets, coverageFileFinder: XcodeCoverageFileFinder.self, xcCovParser: XcCovJSONParser.self)
     }
@@ -14,16 +14,9 @@ final class XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
 
         let data = try xcCovParser.json(fromXCoverageFile: coverageFile)
         var coverage = try JSONDecoder().decode(XcodeBuildCoverage.self, from: data)
-        coverage = coverage.filteringTargets(withFiles: files, excludedTargets: excludedTargets)
+        coverage = coverage.filteringTargets(notOn: files, excludedTargets: excludedTargets)
 
         return Report(messages: ["Project coverage: \(coverage.percentageCoverage.description)%"],
                  sections: coverage.targets.map { ReportSection(fromTarget: $0) })
-    }
-}
-
-extension ReportSection {
-    init(fromTarget target: Target) {
-        self.titleText = "\(target.name): Coverage: \(target.percentageCoverage)"
-        self.items = target.files.map { ReportFile(fileName: $0.name, coverage: $0.percentageCoverage) }
     }
 }
