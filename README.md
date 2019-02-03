@@ -2,6 +2,8 @@
 
 Show the coverage of the modified/created files on your PRs.
 
+![DangerSwiftCoverage](Images/DangerSwiftCoverage.png)
+
 ## Getting Started
 
 - Add this to your `Dangerfile.swift`
@@ -14,8 +16,12 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
 
-- Enable "Gather the Coverage" on Xcode or run 
+- Enable "Gather the Coverage" on Xcode 
+
+![GatherCoverage](Images/GatherCoverage.png)
+
+or, on your CI, execute: 
 ```bash
 xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES
 ```
-on your CI
+
