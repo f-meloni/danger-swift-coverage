@@ -6,18 +6,24 @@ import XCTest
 final class CoverageTests: XCTestCase {
     var dsl: DangerDSL!
 
-    override func setUp() {
-        super.setUp()
-        MockXcodeBuildCoverageParser.receivedDataFolder = nil
-        MockXcodeBuildCoverageParser.receivedFiles = nil
-        MockXcodeBuildCoverageParser.receivedExcludedTargets = nil
-        MockXcodeBuildCoverageParser.shouldSucceed = false
+    var created: [String] {
+        return [
+            ".travis.yml",
+            "Tests/Test.swift",
+        ]
+    }
+
+    var modified: [String] {
+        return [
+            "Sources/Coverage.swift",
+        ]
     }
 
     override func tearDown() {
         dsl = nil
         resetDangerResults()
-
+        MockXcodeBuildCoverageParser.resetValues()
+        MockSPMCoverageParser.resetValues()
         super.tearDown()
     }
 
@@ -30,15 +36,6 @@ final class CoverageTests: XCTestCase {
     }
 
     func testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser() {
-        let created = [
-            ".travis.yml",
-            "Tests/Test.swift",
-        ]
-
-        let modified = [
-            "Sources/Coverage.swift",
-        ]
-
         dsl = githubWithFilesDSL(created: created, modified: modified)
 
         let currentPathProvider = FakeCurrentPathProvider()
@@ -51,7 +48,7 @@ final class CoverageTests: XCTestCase {
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
     }
 
-    func testItSendsTheCorrectRepoToDanger() {
+    func testItSendsTheCorrectReportToDangerForXCodebuild() {
         dsl = githubWithFilesDSL()
         MockXcodeBuildCoverageParser.shouldSucceed = true
 
@@ -76,9 +73,79 @@ final class CoverageTests: XCTestCase {
             """,
         ])
     }
+
+    func testItSendsTheCorrectParametersToTheSPMCoverageParser() {
+        dsl = githubWithFilesDSL(created: created, modified: modified)
+
+        let currentPathProvider = FakeCurrentPathProvider()
+
+        Coverage.spmCoverage(spmCoverageFilePath: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: currentPathProvider, danger: dsl)
+
+        XCTAssertEqual(MockSPMCoverageParser.receivedSPMCoverageFilePath, ".build/debug")
+        XCTAssertEqual(MockSPMCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
+    }
+
+    func testItSendsTheCorrectReportToDangerForSPM() {
+        dsl = githubWithFilesDSL()
+        MockSPMCoverageParser.shouldSucceed = true
+
+        Coverage.spmCoverage(spmCoverageFilePath: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: FakeCurrentPathProvider(), danger: dsl)
+
+        XCTAssertEqual(dsl.messages.map { $0.message }, [])
+
+        XCTAssertEqual(dsl.markdowns.map { $0.message }, [
+            """
+            | File | Coverage ||
+            | --- | --- | --- |
+            Sources/Logger/Logger.swift | 85.0% | ✅
+            Sources/Logger/NotTested.swift | 0.0% | ❌\n
+            """,
+        ])
+    }
 }
 
-fileprivate final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
+private final class MockSPMCoverageParser: SPMCoverageParsing {
+    static var receivedSPMCoverageFilePath: String!
+    static var receivedFiles: [String]!
+
+    static var shouldSucceed = false
+
+    enum FakeError: LocalizedError {
+        case fakeError
+
+        var errorDescription: String? {
+            return "Fake Error"
+        }
+    }
+
+    static let fakeReport = Report(messages: [],
+                                   sections:
+                                   [
+                                       ReportSection(titleText: nil, items: [
+                                           ReportFile(fileName: "Sources/Logger/Logger.swift", coverage: 85),
+                                           ReportFile(fileName: "Sources/Logger/NotTested.swift", coverage: 0),
+                                       ]),
+    ])
+
+    static func coverage(spmCoverageFilePath: String, files: [String]) throws -> Report {
+        receivedSPMCoverageFilePath = spmCoverageFilePath
+        receivedFiles = files
+
+        if shouldSucceed {
+            return MockSPMCoverageParser.fakeReport
+        } else {
+            throw FakeError.fakeError
+        }
+    }
+
+    static func resetValues() {
+        receivedFiles = nil
+        receivedSPMCoverageFilePath = nil
+        shouldSucceed = false
+    }
+}
+
+private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static var receivedFiles: [String]!
     static var receivedDataFolder: String!
     static var receivedExcludedTargets: [String]!
@@ -112,9 +179,16 @@ fileprivate final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing 
         receivedExcludedTargets = excludedTargets
 
         if shouldSucceed {
-            return fakeReport
+            return MockXcodeBuildCoverageParser.fakeReport
         } else {
             throw FakeError.fakeError
         }
+    }
+
+    static func resetValues() {
+        receivedDataFolder = nil
+        receivedFiles = nil
+        receivedExcludedTargets = nil
+        shouldSucceed = false
     }
 }

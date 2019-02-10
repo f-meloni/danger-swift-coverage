@@ -24,10 +24,10 @@ final class SPMCoverageParserTests: XCTestCase {
             return result
         }
 
-        let coverage = try! SPMCoverageParser.coverage(spmCoverageFilePath: testPath, files: ["/Users/franco/Projects/Logger/Sources/Logger/Logger.swift"], fileManager: currentPathProvider)
+        let report = try! SPMCoverageParser.coverage(spmCoverageFilePath: testPath, files: ["/Users/franco/Projects/Logger/Sources/Logger/Logger.swift"], fileManager: currentPathProvider)
 
-        XCTAssertEqual(coverage.sections[0].items.count, 1)
-        XCTAssertEqual(coverage.sections[0].items[0].fileName, "Sources/Logger/Logger.swift")
-        XCTAssertEqual(coverage.sections[0].items[0].coverage, 85)
+        XCTAssertEqual(report.sections[0].items.count, 1)
+        XCTAssertEqual(report.sections[0].items[0].fileName, "Sources/Logger/Logger.swift")
+        XCTAssertEqual(report.sections[0].items[0].coverage, 85)
     }
 }

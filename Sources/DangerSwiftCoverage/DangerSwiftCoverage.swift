@@ -17,6 +17,19 @@ public enum Coverage {
         }
     }
 
+    public static func spmCoverage(spmCoverageFilePath: String = ".build/debug/cov", minimumCoverage: Float) {
+        spmCoverage(spmCoverageFilePath: spmCoverageFilePath, minimumCoverage: minimumCoverage, spmCoverageParser: SPMCoverageParser.self, fileManager: .default, danger: Danger())
+    }
+
+    static func spmCoverage(spmCoverageFilePath: String, minimumCoverage: Float, spmCoverageParser: SPMCoverageParsing.Type, fileManager: FileManager, danger: DangerDSL) {
+        do {
+            let report = try spmCoverageParser.coverage(spmCoverageFilePath: spmCoverageFilePath, files: modifiedFilesAbsolutePaths(fileManager: fileManager, danger: danger))
+            sendReport(report, minumumCoverage: minimumCoverage, danger: danger)
+        } catch {
+            danger.fail("Failed to get the coverage - Error: \(error.localizedDescription)")
+        }
+    }
+
     private static func modifiedFilesAbsolutePaths(fileManager: FileManager, danger: DangerDSL) -> [String] {
         return (danger.git.createdFiles + danger.git.modifiedFiles).map { fileManager.currentDirectoryPath + "/" + $0 }
     }
