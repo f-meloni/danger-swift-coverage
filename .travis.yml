@@ -28,4 +28,4 @@ matrix:
         - npm install -g danger
       script:
         - swift test --enable-code-coverage=true
-        - DEBUG="*" swift run danger-swift ci --id spmCoverage
+        - DEBUG="*" swift run danger-swift ci --id spmCoverage --dangerfile SPMDangerfile.swift
