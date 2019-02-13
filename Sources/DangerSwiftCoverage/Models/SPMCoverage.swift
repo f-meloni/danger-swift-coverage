@@ -13,7 +13,7 @@ struct SPMCoverageData: Decodable {
     let files: [SPMCoverageFile]
 
     func filteringFiles(notOn files: [String]) -> SPMCoverageData {
-        let files = self.files.filter { files.contains($0.filename) }
+        let files = self.files.filter { files.contains($0.filename) && !$0.filename.starts(with: "Tests") }
         return SPMCoverageData(files: files)
     }
 }
