@@ -21,7 +21,7 @@ matrix:
         - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
         - DEBUG="*" swift run danger-swift ci
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       install:
         - gem install bundler
         - bundle install
