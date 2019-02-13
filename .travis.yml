@@ -37,6 +37,7 @@ matrix:
         - node -v
         - npm install -g danger
         - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+        - swiftenv install 5.0
         - swiftenv global 5.0
       script:
         - swift test --enable-code-coverage=true
