@@ -29,7 +29,7 @@ final class CoverageTests: XCTestCase {
 
     func testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage() {
         dsl = githubFixtureDSL
-        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: FakeCurrentPathProvider(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
 
         XCTAssertEqual(dsl.fails.count, 1)
         XCTAssertEqual(dsl.fails[0].message, "Failed to get the coverage - Error: Fake Error")
@@ -38,7 +38,7 @@ final class CoverageTests: XCTestCase {
     func testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser() {
         dsl = githubWithFilesDSL(created: created, modified: modified)
 
-        let currentPathProvider = FakeCurrentPathProvider()
+        let currentPathProvider = StubbedFileManager()
         let excluedTargets = ["TargetA.framework", "TargetB.framework"]
 
         Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
@@ -52,7 +52,7 @@ final class CoverageTests: XCTestCase {
         dsl = githubWithFilesDSL()
         MockXcodeBuildCoverageParser.shouldSucceed = true
 
-        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: FakeCurrentPathProvider(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
 
         XCTAssertEqual(dsl.messages.map { $0.message }, ["TestMessage1", "TestMessage2"])
 
@@ -77,9 +77,9 @@ final class CoverageTests: XCTestCase {
     func testItSendsTheCorrectParametersToTheSPMCoverageParser() {
         dsl = githubWithFilesDSL(created: created, modified: modified)
 
-        let currentPathProvider = FakeCurrentPathProvider()
+        let currentPathProvider = StubbedFileManager()
 
-        Coverage.spmCoverage(spmCoverageFilePath: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: currentPathProvider, danger: dsl)
+        Coverage.spmCoverage(spmCoverageFolder: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: currentPathProvider, danger: dsl)
 
         XCTAssertEqual(MockSPMCoverageParser.receivedSPMCoverageFilePath, ".build/debug")
         XCTAssertEqual(MockSPMCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
@@ -89,7 +89,7 @@ final class CoverageTests: XCTestCase {
         dsl = githubWithFilesDSL()
         MockSPMCoverageParser.shouldSucceed = true
 
-        Coverage.spmCoverage(spmCoverageFilePath: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: FakeCurrentPathProvider(), danger: dsl)
+        Coverage.spmCoverage(spmCoverageFolder: ".build/debug", minimumCoverage: 50, spmCoverageParser: MockSPMCoverageParser.self, fileManager: StubbedFileManager(), danger: dsl)
 
         XCTAssertEqual(dsl.messages.map { $0.message }, [])
 
@@ -127,7 +127,7 @@ private final class MockSPMCoverageParser: SPMCoverageParsing {
                                        ]),
     ])
 
-    static func coverage(spmCoverageFilePath: String, files: [String]) throws -> Report {
+    static func coverage(spmCoverageFolder spmCoverageFilePath: String, files: [String]) throws -> Report {
         receivedSPMCoverageFilePath = spmCoverageFilePath
         receivedFiles = files
 

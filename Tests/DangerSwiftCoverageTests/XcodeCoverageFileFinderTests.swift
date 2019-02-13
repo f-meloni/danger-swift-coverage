@@ -21,7 +21,7 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
     }
 
     func testItFailsIfTheDirectoryDoesntContainAnXCovFile() {
-        fileManager.contentResult = { fileName in
+        fileManager.stubbedContentOfDirectoryBlock = { fileName in
             fileName == "derived/Logs/Test/" ? ["test.xcresult"] : []
         }
 
@@ -31,18 +31,10 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
     }
 
     func testItReturnsTheCorrectCoverageFile() throws {
-        fileManager.contentResult = { fileName in
+        fileManager.stubbedContentOfDirectoryBlock = { fileName in
             fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "derived/Logs/Test/test.xcresult" ? ["1_test"] : ["action.xccovreport"])
         }
 
         XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "derived/Logs/Test/test.xcresult/1_test/action.xccovreport")
-    }
-}
-
-private final class StubbedFileManager: FileManager {
-    fileprivate var contentResult: ((String) -> [String])?
-
-    override func contentsOfDirectory(atPath path: String) throws -> [String] {
-        return contentResult?(path) ?? []
     }
 }

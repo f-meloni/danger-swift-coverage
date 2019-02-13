@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/danger/swift.git",
         "state": {
           "branch": null,
-          "revision": "ea843a2df3f17c309767dd9725c82dc1c4e60130",
-          "version": "1.3.1"
+          "revision": "ece72c9bc2d8b0719d74ba0377063288ca625ba7",
+          "version": "1.3.2"
         }
       },
       {
@@ -228,7 +228,7 @@
       },
       {
         "package": "Yams",
-        "repositoryURL": "https://github.com/jpsim/Yams",
+        "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
           "branch": null,
           "revision": "26ab35f50ea891e8edefcc9d975db2f6b67e1d68",
