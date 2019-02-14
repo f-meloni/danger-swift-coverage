@@ -30,7 +30,7 @@ matrix:
         - swift test --enable-code-coverage=true
         - DEBUG="*" swift run danger-swift ci --id spmCoverage --dangerfile SPMDangerfile.swift
     - os: linux
-      env: SWIFT_VERSION='5.0-DEVELOPMENT-SNAPSHOT-2019-01-22-a'
+      env: SWIFT_VERSION='5.0-DEVELOPMENT-SNAPSHOT-2019-02-06-a'
       language: generic
       sudo: required
       dist: trusty
