@@ -27,7 +27,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
         let testFolder = derivedDataFolder + "/Logs/Test/"
 
         guard let xcresults = try? fileManager.contentsOfDirectory(atPath: testFolder).filter({ $0.split(separator: ".").last == "xcresult" }),
-            xcresults.count > 0 else {
+            !xcresults.isEmpty else {
             throw Errors.xcresultNotFound
         }
 

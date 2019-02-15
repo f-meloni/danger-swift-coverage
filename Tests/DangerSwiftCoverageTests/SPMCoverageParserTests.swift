@@ -7,10 +7,10 @@ final class SPMCoverageParserTests: XCTestCase {
 
         try spmCoverageJSON.write(toFile: testPath, atomically: false, encoding: .utf8)
 
-        let currentPathProvider = FakeCurrentPathProvider()
+        let fileManager = StubbedFileManager()
 
         var calls = 0
-        currentPathProvider.currentPathBlock = {
+        fileManager.currentPathBlock = {
             let result: String
 
             if calls == 0 {
@@ -24,10 +24,14 @@ final class SPMCoverageParserTests: XCTestCase {
             return result
         }
 
-        let coverage = try! SPMCoverageParser.coverage(spmCoverageFilePath: testPath, files: ["/Users/franco/Projects/Logger/Sources/Logger/Logger.swift"], fileManager: currentPathProvider)
+        fileManager.stubbedContentOfDirectoryBlock = { _ in
+            [testPath]
+        }
 
-        XCTAssertEqual(coverage.sections[0].items.count, 1)
-        XCTAssertEqual(coverage.sections[0].items[0].fileName, "Sources/Logger/Logger.swift")
-        XCTAssertEqual(coverage.sections[0].items[0].coverage, 85)
+        let report = try! SPMCoverageParser.coverage(spmCoverageFolder: ".", files: ["/Users/franco/Projects/Logger/Sources/Logger/Logger.swift"], fileManager: fileManager)
+
+        XCTAssertEqual(report.sections[0].items.count, 1)
+        XCTAssertEqual(report.sections[0].items[0].fileName, "Sources/Logger/Logger.swift")
+        XCTAssertEqual(report.sections[0].items[0].coverage, 85)
     }
 }

@@ -5,18 +5,39 @@ cache:
     # General SwiftPM
     - .build
     # XCodebuild cache
-    - Build  
+    - Build
 
 matrix:
   include:
-    - os: osx	
-      osx_image: xcode10	
-      install:	
-        - gem install bundler	
+    - os: osx
+      osx_image: xcode10
+      install:
+        - gem install bundler
         - bundle install
-        - npm install -g danger	
+        - npm install -g danger
       script:
         - swift package generate-xcodeproj
         - swift build
-        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`	
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
         - DEBUG="*" swift run danger-swift ci
+    - os: osx
+      osx_image: xcode10.2
+      install:
+        - gem install bundler
+        - bundle install
+        - npm install -g danger
+      script:
+        - swift test --enable-code-coverage=true
+        - DEBUG="*" swift run danger-swift ci --id spmCoverage --dangerfile SPMDangerfile.swift
+#     - os: linux
+#       env: SWIFT_VERSION='5.0-DEVELOPMENT-SNAPSHOT-2019-02-06-a'
+#       language: generic
+#       sudo: required
+#       dist: trusty
+#       install:
+#         - node -v
+#         - npm install -g danger
+#         - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+#       script:
+#         - swift test --enable-code-coverage=true
+#         - DEBUG="*" swift run danger-swift ci --id spmCoverage --dangerfile SPMDangerfile.swift

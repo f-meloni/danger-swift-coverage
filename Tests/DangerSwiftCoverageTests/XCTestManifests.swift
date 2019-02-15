@@ -3,8 +3,10 @@ import XCTest
 extension CoverageTests {
     static let __allTests = [
         ("testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage", testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage),
+        ("testItSendsTheCorrectParametersToTheSPMCoverageParser", testItSendsTheCorrectParametersToTheSPMCoverageParser),
         ("testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser", testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser),
-        ("testItSendsTheCorrectRepoToDanger", testItSendsTheCorrectRepoToDanger),
+        ("testItSendsTheCorrectReportToDangerForSPM", testItSendsTheCorrectReportToDangerForSPM),
+        ("testItSendsTheCorrectReportToDangerForXCodebuild", testItSendsTheCorrectReportToDangerForXCodebuild),
     ]
 }
 
