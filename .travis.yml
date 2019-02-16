@@ -5,7 +5,7 @@ cache:
     # General SwiftPM
     - .build
     # XCodebuild cache
-    - Build
+    - build
 
 matrix:
   include:
@@ -18,8 +18,19 @@ matrix:
       script:
         - swift package generate-xcodeproj
         - swift build
-        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
         - DEBUG="*" swift run danger-swift ci
+    - os: osx
+      osx_image: xcode10
+      install:
+        - gem install bundler
+        - bundle install
+        - npm install -g danger
+      script:
+        - swift package generate-xcodeproj
+        - swift build
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -resultBundlePath build/results
+        - DEBUG="*" swift run danger-swift ci --id customPath
     - os: osx
       osx_image: xcode10.2
       install:
