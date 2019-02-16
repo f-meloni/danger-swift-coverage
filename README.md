@@ -17,7 +17,7 @@ let package = Package(
     ...
     products: [
         ...
-        .library(name: "DangerDeps", type: .dynamic, targets: ["Danger-Swift"]), // dev
+        .library(name: "DangerDeps", type: .dynamic, targets: ["DangerDependencies"]), // dev
         ...
     ],
     dependencies: [
@@ -27,7 +27,7 @@ let package = Package(
         ...
     ],
     targets: [
-        .target(name: "Danger-Swift", dependencies: ["Danger", "DangerSwiftCoverage"]), // dev
+        .target(name: "DangerDependencies", dependencies: ["Danger", "DangerSwiftCoverage"]), // dev
         ...
     ]
 )
@@ -42,8 +42,10 @@ Coverage.xcodeBuildCoverage(derivedDataFolder: "Build",
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
 
-- Run `swift run danger-swift command`
-- (Recommended) If you are using SPM to distribute your framework use [Rocket](https://github.com/f-meloni/Rocket) or similar to comment out all the dev depencencies from your `Package.swift` and avoid them to be downloaded and compiled with your framework.
+- Create a folder called `DangerDependencies` on `Sources` with an empty file inside like [Fake.swift](Sources/DangerDependencies/Fake.swift)
+- To run `Danger` use `swift run danger-swift command`
+- (Recommended) If you are using SPM to distribute your framework, use [Rocket](https://github.com/f-meloni/Rocket), or similar to comment out all the dev depencencies from your `Package.swift`.
+This prevents the dev dependencies to be downloaded and compiled with your framework.
 
 #### Marathon
 - Add this to your `Dangerfile.swift`
