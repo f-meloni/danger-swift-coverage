@@ -37,7 +37,7 @@ let package = Package(
 ```swift
 import DangerSwiftCoverage
 
-Coverage.xcodeBuildCoverage(derivedDataFolder: "Build", 
+Coverage.xcodeBuildCoverage(derivedDataFolder: .derivedDataFolder("Build"), 
                             minimumCoverage: 50, 
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
