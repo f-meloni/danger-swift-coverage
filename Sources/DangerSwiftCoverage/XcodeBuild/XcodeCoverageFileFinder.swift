@@ -35,7 +35,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
 
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
         return xcresultContent?.lazy.compactMap { directory -> String? in
-            (try? fileManager.contentsOfDirectory(atPath: directory).compactMap { file -> String? in
+            (try? fileManager.contentsOfDirectory(atPath: directory).lazy.compactMap { file -> String? in
                 file == "action.xccovreport" ? directory + "/" + file : nil
             })?.first
         }.first
