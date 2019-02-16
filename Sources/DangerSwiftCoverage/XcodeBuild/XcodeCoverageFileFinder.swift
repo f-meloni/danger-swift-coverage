@@ -1,7 +1,7 @@
 import Foundation
 
 protocol XcodeCoverageFileFinding {
-    static func coverageFile(derivedDataFolder: String) throws -> String
+    static func coverageFile(xcresultBundlePath: String) throws -> String
 }
 
 enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
@@ -19,26 +19,12 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
         }
     }
 
-    static func coverageFile(derivedDataFolder: String) throws -> String {
-        return try coverageFile(derivedDataFolder: derivedDataFolder, fileManager: .default)
+    static func coverageFile(xcresultBundlePath: String) throws -> String {
+        return try coverageFile(xcresultBundlePath: xcresultBundlePath, fileManager: .default)
     }
 
-    static func coverageFile(derivedDataFolder: String, fileManager: FileManager) throws -> String {
-        let testFolder = derivedDataFolder + "/Logs/Test/"
-
-        guard let xcresults = try? fileManager.contentsOfDirectory(atPath: testFolder).filter({ $0.split(separator: ".").last == "xcresult" }),
-            !xcresults.isEmpty else {
-            throw Errors.xcresultNotFound
-        }
-
-        let xcresult = testFolder + xcresults.sorted(by: { (left, right) -> Bool in
-            let leftModificationDate = fileManager.modificationDate(forFileAtPath: left)?.timeIntervalSince1970 ?? 0
-            let rightModificationDate = fileManager.modificationDate(forFileAtPath: right)?.timeIntervalSince1970 ?? 0
-
-            return leftModificationDate > rightModificationDate
-        }).first!
-
-        let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresult).map { xcresult + "/" + $0 }
+    static func coverageFile(xcresultBundlePath: String, fileManager: FileManager) throws -> String {
+        let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresultBundlePath).map { xcresultBundlePath + "/" + $0 }
 
         guard let coverageFile = firstCoverageFile(fromXcresultContent: xcresultContent, fileManager: fileManager) else {
             throw Errors.xcodeCovReportNotFound
@@ -49,7 +35,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
 
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
         return xcresultContent?.lazy.compactMap { directory -> String? in
-            (try? fileManager.contentsOfDirectory(atPath: directory).compactMap { file -> String? in
+            (try? fileManager.contentsOfDirectory(atPath: directory).lazy.compactMap { file -> String? in
                 file == "action.xccovreport" ? directory + "/" + file : nil
             })?.first
         }.first
@@ -58,7 +44,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
 
 extension FileManager {
     func modificationDate(forFileAtPath path: String) -> Date? {
-        guard let attributes = try? FileManager.default.attributesOfItem(atPath: path) else {
+        guard let attributes = try? attributesOfItem(atPath: path) else {
             return nil
         }
 

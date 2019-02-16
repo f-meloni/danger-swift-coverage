@@ -6,7 +6,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         super.setUp()
         MockedXcCovJSONParser.receivedFile = nil
         MockedXcCovJSONParser.result = XcCovJSONResponse.data(using: .utf8)
-        FakeXcodeCoverageFileFinder.receivedDataFolder = nil
+        FakeXcodeCoverageFileFinder.receivedXcresultBundlePath = nil
     }
 
     func testItParsesTheJSONCorrectly() {
@@ -15,9 +15,9 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
                      "/Users/franco/Projects/swift/Sources/RunnerLib/Files Import/ImportsFinder.swift",
                      "/Users/franco/Projects/swift/Sources/RunnerLib/HelpMessagePresenter.swift"]
 
-        let result = try! XcodeBuildCoverageParser.coverage(derivedDataFolder: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
+        let result = try! XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
 
-        XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedDataFolder)
+        XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedXcresultBundlePath)
         XCTAssertEqual(FakeXcodeCoverageFileFinder.result, MockedXcCovJSONParser.receivedFile)
 
         XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
@@ -45,9 +45,9 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
                      "/Users/franco/Projects/swift/Sources/RunnerLib/Files Import/ImportsFinder.swift",
                      "/Users/franco/Projects/swift/Sources/RunnerLib/HelpMessagePresenter.swift"]
 
-        let result = try! XcodeBuildCoverageParser.coverage(derivedDataFolder: "derived", files: files, excludedTargets: ["RunnerLib.xctest"], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
+        let result = try! XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: ["RunnerLib.xctest"], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
 
-        XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedDataFolder)
+        XCTAssertEqual("derived", FakeXcodeCoverageFileFinder.receivedXcresultBundlePath)
         XCTAssertEqual(FakeXcodeCoverageFileFinder.result, MockedXcCovJSONParser.receivedFile)
 
         XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
@@ -66,7 +66,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         let files = ["/Users/franco/Projects/swift/Sources/Danger/BitBucketServerDSL.swift",
                      "/Users/franco/Projects/swift/Sources/Danger/Danger.swift"]
 
-        let result = try! XcodeBuildCoverageParser.coverage(derivedDataFolder: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
+        let result = try! XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
 
         let firstSection = result.sections[0]
         XCTAssertEqual(firstSection.titleText, "Danger.framework: Coverage: 43.44")
@@ -81,7 +81,7 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
     func testItReturnsTheCoverageWhenThereAreNoTargets() {
         let files: [String] = []
 
-        let result = try! XcodeBuildCoverageParser.coverage(derivedDataFolder: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
+        let result = try! XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
 
         XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
     }
@@ -89,10 +89,10 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
 
 private struct FakeXcodeCoverageFileFinder: XcodeCoverageFileFinding {
     static let result = "result.xccoverage"
-    static var receivedDataFolder: String?
+    static var receivedXcresultBundlePath: String?
 
-    static func coverageFile(derivedDataFolder: String) throws -> String {
-        receivedDataFolder = derivedDataFolder
+    static func coverageFile(xcresultBundlePath: String) throws -> String {
+        receivedXcresultBundlePath = xcresultBundlePath
         return result
     }
 }

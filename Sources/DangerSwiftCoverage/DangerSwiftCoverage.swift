@@ -2,15 +2,33 @@ import Danger
 import Foundation
 
 public enum Coverage {
-    public static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, excludedTargets: [String] = []) {
-        xcodeBuildCoverage(derivedDataFolder: derivedDataFolder, minimumCoverage: minimumCoverage, excludedTargets: excludedTargets, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, danger: Danger())
+    public enum XcresultPathType {
+        case custom(String)
+        case derivedDataFolder(String)
     }
 
-    static func xcodeBuildCoverage(derivedDataFolder: String, minimumCoverage: Float, excludedTargets: [String], fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, danger: DangerDSL) {
+    public static func xcodeBuildCoverage(_ xcresultPathType: XcresultPathType = .derivedDataFolder("build"), minimumCoverage: Float, excludedTargets: [String] = []) {
+        xcodeBuildCoverage(xcresultPathType, minimumCoverage: minimumCoverage, excludedTargets: excludedTargets, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, xcresultFinder: XcresultBundleFinder.self, danger: Danger())
+    }
+
+    static func xcodeBuildCoverage(_ xcresultPathType: XcresultPathType, minimumCoverage: Float, excludedTargets: [String], fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, xcresultFinder: XcresultBundleFinding.Type, danger: DangerDSL) {
         let paths = modifiedFilesAbsolutePaths(fileManager: fileManager, danger: danger)
 
+        let xcresultBundlePath: String
+
+        switch xcresultPathType {
+        case let .derivedDataFolder(folderPath):
+            do {
+                xcresultBundlePath = try xcresultFinder.findXcresultFile(derivedDataFolder: folderPath, fileManager: fileManager)
+            } catch {
+                return danger.fail("Failed to get the coverage - Error: \(error.localizedDescription)")
+            }
+        case let .custom(path):
+            xcresultBundlePath = path
+        }
+
         do {
-            let report = try xcodeBuildCoverageParser.coverage(derivedDataFolder: derivedDataFolder, files: paths, excludedTargets: excludedTargets)
+            let report = try xcodeBuildCoverageParser.coverage(xcresultBundlePath: xcresultBundlePath, files: paths, excludedTargets: excludedTargets)
             sendReport(report, minumumCoverage: minimumCoverage, danger: danger)
         } catch {
             danger.fail("Failed to get the coverage - Error: \(error.localizedDescription)")

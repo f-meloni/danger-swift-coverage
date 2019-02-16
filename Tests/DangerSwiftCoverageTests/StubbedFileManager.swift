@@ -7,6 +7,7 @@ final class StubbedFileManager: FileManager {
     }
 
     var stubbedContentOfDirectoryBlock: ((String) -> [String])?
+    var stubbedAttributesOfItemBlock: ((String) -> [FileAttributeKey: Any])?
 
     override var currentDirectoryPath: String {
         return currentPathBlock()
@@ -18,5 +19,9 @@ final class StubbedFileManager: FileManager {
         } else {
             return try super.contentsOfDirectory(atPath: path)
         }
+    }
+
+    override func attributesOfItem(atPath path: String) throws -> [FileAttributeKey: Any] {
+        return stubbedAttributesOfItemBlock?(path) ?? [.modificationDate: Date()]
     }
 }

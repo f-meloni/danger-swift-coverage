@@ -24,12 +24,13 @@ final class CoverageTests: XCTestCase {
         resetDangerResults()
         MockXcodeBuildCoverageParser.resetValues()
         MockSPMCoverageParser.resetValues()
+        FakeXcodeResultBundleFinder.resetValues()
         super.tearDown()
     }
 
     func testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage() {
         dsl = githubFixtureDSL
-        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.derivedDataFolder("derived"), minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
         XCTAssertEqual(dsl.fails.count, 1)
         XCTAssertEqual(dsl.fails[0].message, "Failed to get the coverage - Error: Fake Error")
@@ -41,9 +42,22 @@ final class CoverageTests: XCTestCase {
         let currentPathProvider = StubbedFileManager()
         let excluedTargets = ["TargetA.framework", "TargetB.framework"]
 
-        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.derivedDataFolder("derived"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
-        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedDataFolder, "derived")
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedXcresultBundlePath, FakeXcodeResultBundleFinder.result)
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excluedTargets)
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
+    }
+
+    func testItSendsTheCorrectParametersToTheXcodeBuildCoverageParserWhenTheXcresultBundlePathIsCustom() {
+        dsl = githubWithFilesDSL(created: created, modified: modified)
+
+        let currentPathProvider = StubbedFileManager()
+        let excluedTargets = ["TargetA.framework", "TargetB.framework"]
+
+        Coverage.xcodeBuildCoverage(.custom("custom"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
+
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedXcresultBundlePath, "custom")
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excluedTargets)
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
     }
@@ -52,7 +66,7 @@ final class CoverageTests: XCTestCase {
         dsl = githubWithFilesDSL()
         MockXcodeBuildCoverageParser.shouldSucceed = true
 
-        Coverage.xcodeBuildCoverage(derivedDataFolder: "derived", minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.derivedDataFolder("derived"), minimumCoverage: 50, excludedTargets: [], fileManager: StubbedFileManager(), xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
         XCTAssertEqual(dsl.messages.map { $0.message }, ["TestMessage1", "TestMessage2"])
 
@@ -145,9 +159,23 @@ private final class MockSPMCoverageParser: SPMCoverageParsing {
     }
 }
 
+private final class FakeXcodeResultBundleFinder: XcresultBundleFinding {
+    static var receivedDerivedDataFolder: String!
+    static let result = "/test/1.xcoderesult"
+
+    static func findXcresultFile(derivedDataFolder: String, fileManager _: FileManager) throws -> String {
+        receivedDerivedDataFolder = derivedDataFolder
+        return result
+    }
+
+    static func resetValues() {
+        receivedDerivedDataFolder = nil
+    }
+}
+
 private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static var receivedFiles: [String]!
-    static var receivedDataFolder: String!
+    static var receivedXcresultBundlePath: String!
     static var receivedExcludedTargets: [String]!
 
     static var shouldSucceed = false
@@ -173,9 +201,9 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
                                        ]),
     ])
 
-    static func coverage(derivedDataFolder: String, files: [String], excludedTargets: [String]) throws -> Report {
+    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String]) throws -> Report {
         receivedFiles = files
-        receivedDataFolder = derivedDataFolder
+        receivedXcresultBundlePath = xcresultBundlePath
         receivedExcludedTargets = excludedTargets
 
         if shouldSucceed {
@@ -186,7 +214,7 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     }
 
     static func resetValues() {
-        receivedDataFolder = nil
+        receivedXcresultBundlePath = nil
         receivedFiles = nil
         receivedExcludedTargets = nil
         shouldSucceed = false
