@@ -37,7 +37,7 @@ let package = Package(
 ```swift
 import DangerSwiftCoverage
 
-Coverage.xcodeBuildCoverage(derivedDataFolder: .derivedDataFolder("Build"), 
+Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), 
                             minimumCoverage: 50, 
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
@@ -53,7 +53,7 @@ This prevents the dev dependencies to be downloaded and compiled with your frame
 ```swift
 import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage
 
-Coverage.xcodeBuildCoverage(derivedDataFolder: "Build", 
+Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), 
                             minimumCoverage: 50, 
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
