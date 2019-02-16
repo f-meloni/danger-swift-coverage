@@ -14,27 +14,21 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
         fileManager = nil
     }
 
-    func testItFailsIfTheDirectoryDoesntContainAnXCResultFile() {
-        XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager)) { error in
-            XCTAssertEqual(error.localizedDescription, "Could not find the xcresult file")
-        }
-    }
-
     func testItFailsIfTheDirectoryDoesntContainAnXCovFile() {
-        fileManager.stubbedContentOfDirectoryBlock = { fileName in
-            fileName == "derived/Logs/Test/" ? ["test.xcresult"] : []
+        fileManager.stubbedContentOfDirectoryBlock = { _ in
+            []
         }
 
-        XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager)) { error in
+        XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager)) { error in
             XCTAssertEqual(error.localizedDescription, "Could not find the xccovreport file")
         }
     }
 
     func testItReturnsTheCorrectCoverageFile() throws {
         fileManager.stubbedContentOfDirectoryBlock = { fileName in
-            fileName == "derived/Logs/Test/" ? ["test.xcresult"] : (fileName == "derived/Logs/Test/test.xcresult" ? ["1_test"] : ["action.xccovreport"])
+            fileName == "xcresultBundlePath" ? ["1_test"] : ["action.xccovreport"]
         }
 
-        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(derivedDataFolder: "derived", fileManager: fileManager), "derived/Logs/Test/test.xcresult/1_test/action.xccovreport")
+        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager), "xcresultBundlePath/1_test/action.xccovreport")
     }
 }

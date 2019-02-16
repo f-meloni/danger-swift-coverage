@@ -5,6 +5,7 @@ extension CoverageTests {
         ("testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage", testItSendsAFailMessageIfFailsToParseTheXcodeBuildCoverage),
         ("testItSendsTheCorrectParametersToTheSPMCoverageParser", testItSendsTheCorrectParametersToTheSPMCoverageParser),
         ("testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser", testItSendsTheCorrectParametersToTheXcodeBuildCoverageParser),
+        ("testItSendsTheCorrectParametersToTheXcodeBuildCoverageParserWhenTheXcresultBundlePathIsCustom", testItSendsTheCorrectParametersToTheXcodeBuildCoverageParserWhenTheXcresultBundlePathIsCustom),
         ("testItSendsTheCorrectReportToDangerForSPM", testItSendsTheCorrectReportToDangerForSPM),
         ("testItSendsTheCorrectReportToDangerForXCodebuild", testItSendsTheCorrectReportToDangerForXCodebuild),
     ]
@@ -40,8 +41,13 @@ extension XcodeBuildCoverageParserTests {
 extension XcodeCoverageFileFinderTests {
     static let __allTests = [
         ("testItFailsIfTheDirectoryDoesntContainAnXCovFile", testItFailsIfTheDirectoryDoesntContainAnXCovFile),
-        ("testItFailsIfTheDirectoryDoesntContainAnXCResultFile", testItFailsIfTheDirectoryDoesntContainAnXCResultFile),
         ("testItReturnsTheCorrectCoverageFile", testItReturnsTheCorrectCoverageFile),
+    ]
+}
+
+extension XcresultBundleFindingTests {
+    static let __allTests = [
+        ("testReturnsTheCorrectPath", testReturnsTheCorrectPath),
     ]
 }
 
@@ -54,6 +60,7 @@ extension XcodeCoverageFileFinderTests {
             testCase(XcCovJSONTests.__allTests),
             testCase(XcodeBuildCoverageParserTests.__allTests),
             testCase(XcodeCoverageFileFinderTests.__allTests),
+            testCase(XcresultBundleFindingTests.__allTests),
         ]
     }
 #endif
