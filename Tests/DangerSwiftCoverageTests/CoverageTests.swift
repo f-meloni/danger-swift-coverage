@@ -55,7 +55,7 @@ final class CoverageTests: XCTestCase {
         let currentPathProvider = StubbedFileManager()
         let excluedTargets = ["TargetA.framework", "TargetB.framework"]
 
-        Coverage.xcodeBuildCoverage(.custom("custom"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.xcresultBundle("custom"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedXcresultBundlePath, "custom")
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excluedTargets)

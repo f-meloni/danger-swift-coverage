@@ -3,4 +3,4 @@ import DangerSwiftCoverage
 
 let danger = Danger()
 
-Coverage.xcodeBuildCoverage(.custom("build/results"), minimumCoverage: 50, excludedTargets: ["DangerSwiftCoverageTests.xctest"])
+Coverage.xcodeBuildCoverage(.xcresultBundle("build/results"), minimumCoverage: 50, excludedTargets: ["DangerSwiftCoverageTests.xctest"])
