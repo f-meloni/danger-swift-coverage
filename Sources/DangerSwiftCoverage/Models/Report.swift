@@ -34,7 +34,7 @@ extension ReportSection {
         """
 
         markdown += items.map {
-            "\($0.fileName) | \($0.coverage)% | \($0.coverage > minimumCoverage ? "✅" : "❌")\n"
+            "\($0.fileName) | \($0.coverage)% | \($0.coverage > minimumCoverage ? "✅" : "⚠️")\n"
         }.joined()
 
         return markdown

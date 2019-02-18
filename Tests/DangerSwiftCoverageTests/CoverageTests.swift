@@ -76,7 +76,7 @@ final class CoverageTests: XCTestCase {
             | File | Coverage ||
             | --- | --- | --- |
             BitBucketServerDSL.swift | 100.0% | ✅
-            Danger.swift | 0.0% | ❌\n
+            Danger.swift | 0.0% | ⚠️\n
             """,
             """
             ## RunnerLib.framework: Coverage: 66.67%
@@ -112,7 +112,7 @@ final class CoverageTests: XCTestCase {
             | File | Coverage ||
             | --- | --- | --- |
             Sources/Logger/Logger.swift | 85.0% | ✅
-            Sources/Logger/NotTested.swift | 0.0% | ❌\n
+            Sources/Logger/NotTested.swift | 0.0% | ⚠️\n
             """,
         ])
     }
