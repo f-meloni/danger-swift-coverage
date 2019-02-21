@@ -71,5 +71,13 @@ or, on your CI, execute:
 xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -enableCodeCoverage YES
 ```
 
+### Custom XCResultBundle path
+If you are using the `-resultBundlePath` parameter on `xcodebuild` you will need to use:
+```
+Coverage.xcodeBuildCoverage(.xcresultBundle("Build/bundlePath"), 
+                            minimumCoverage: 50, 
+                            excludedTargets: ["DangerSwiftCoverageTests.xctest"])
+```
+
 ## License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
