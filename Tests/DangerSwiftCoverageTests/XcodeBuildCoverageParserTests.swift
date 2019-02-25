@@ -83,7 +83,8 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
 
         let result = try! XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [], coverageFileFinder: FakeXcodeCoverageFileFinder.self, xcCovParser: MockedXcCovJSONParser.self)
 
-        XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
+        XCTAssertEqual(result.messages, [])
+        XCTAssertEqual(result.sections.count, 0)
     }
 }
 

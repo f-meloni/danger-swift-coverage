@@ -16,7 +16,9 @@ enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
         var coverage = try JSONDecoder().decode(XcodeBuildCoverage.self, from: data)
         coverage = coverage.filteringTargets(notOn: files, excludedTargets: excludedTargets)
 
-        return Report(messages: ["Project coverage: \(coverage.percentageCoverage.description)%"],
-                      sections: coverage.targets.map { ReportSection(fromTarget: $0) })
+        let targets = coverage.targets.map { ReportSection(fromTarget: $0) }
+        let messages = !targets.isEmpty ? ["Project coverage: \(coverage.percentageCoverage.description)%"] : []
+
+        return Report(messages: messages, sections: targets)
     }
 }
