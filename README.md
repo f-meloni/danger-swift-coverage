@@ -79,5 +79,13 @@ Coverage.xcodeBuildCoverage(.xcresultBundle("Build/bundlePath"),
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
 
+### Swift Package Manager
+From Swift 5.0 you can gather the coverage from SPM with the `--enable-code-coverage=true` flag
+For SPM coverage add to your Dangerfile:
+
+```swift
+Coverage.spmCoverage(minimumCoverage: 50)
+```
+
 ## License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
