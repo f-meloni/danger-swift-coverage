@@ -51,7 +51,7 @@ This prevents the dev dependencies to be downloaded and compiled with your frame
 - Add this to your `Dangerfile.swift`
 
 ```swift
-import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage
+import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
 
 Coverage.xcodeBuildCoverage(.derivedDataFolder("Build"), 
                             minimumCoverage: 50, 
