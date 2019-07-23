@@ -139,7 +139,7 @@ private final class MockSPMCoverageParser: SPMCoverageParsing {
                                            ReportFile(fileName: "Sources/Logger/Logger.swift", coverage: 85),
                                            ReportFile(fileName: "Sources/Logger/NotTested.swift", coverage: 0),
                                        ]),
-    ])
+                                   ])
 
     static func coverage(spmCoverageFolder spmCoverageFilePath: String, files: [String]) throws -> Report {
         receivedSPMCoverageFilePath = spmCoverageFilePath
@@ -199,7 +199,7 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
                                            ReportFile(fileName: "ImportsFinder.swift", coverage: 100),
                                            ReportFile(fileName: "HelpMessagePresenter.swift", coverage: 100),
                                        ]),
-    ])
+                                   ])
 
     static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String]) throws -> Report {
         receivedFiles = files
