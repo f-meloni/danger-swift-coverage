@@ -1,36 +1,22 @@
 import Foundation
 
 protocol XcodeCoverageFileFinding {
-    static func coverageFile(xcresultBundlePath: String) throws -> String
+    static func coverageFile(xcresultBundlePath: String) -> String?
 }
 
 enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
-    enum Errors: LocalizedError {
-        case xcresultNotFound
-        case xcodeCovReportNotFound
-
-        var errorDescription: String? {
-            switch self {
-            case .xcresultNotFound:
-                return "Could not find the xcresult file"
-            case .xcodeCovReportNotFound:
-                return "Could not find the xccovreport file"
-            }
-        }
+    static func coverageFile(xcresultBundlePath: String) -> String? {
+        return coverageFile(xcresultBundlePath: xcresultBundlePath, fileManager: .default)
     }
 
-    static func coverageFile(xcresultBundlePath: String) throws -> String {
-        return try coverageFile(xcresultBundlePath: xcresultBundlePath, fileManager: .default)
-    }
-
-    static func coverageFile(xcresultBundlePath: String, fileManager: FileManager) throws -> String {
+    static func coverageFile(xcresultBundlePath: String, fileManager: FileManager) -> String? {
         let xcresultContent = try? fileManager.contentsOfDirectory(atPath: xcresultBundlePath).map { xcresultBundlePath + "/" + $0 }
 
-        guard let coverageFile = firstCoverageFile(fromXcresultContent: xcresultContent, fileManager: fileManager) else {
-            throw Errors.xcodeCovReportNotFound
+        if let coverageFile = firstCoverageFile(fromXcresultContent: xcresultContent, fileManager: fileManager) {
+            return coverageFile
+        } else {
+            return nil
         }
-
-        return coverageFile
     }
 
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
