@@ -15,7 +15,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/danger/swift.git", from: "2.0.0"),
-        .package(url: "https://github.com/JohnSundell/ShellOut", from: "2.1.0"),
         // Dev dependencies
         .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.35.8"), // dev
         .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1"), // dev
@@ -27,7 +26,7 @@ let package = Package(
         .target(name: "DangerDependencies", dependencies: ["Danger", "DangerSwiftCoverage", "DangerXCodeSummary"]), // dev
         .target(
             name: "DangerSwiftCoverage",
-            dependencies: ["Danger", "ShellOut"]
+            dependencies: ["Danger"]
         ),
         .testTarget(
             name: "DangerSwiftCoverageTests",

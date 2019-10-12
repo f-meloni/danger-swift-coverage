@@ -14,14 +14,12 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
         fileManager = nil
     }
 
-    func testItFailsIfTheDirectoryDoesntContainAnXCovFile() {
+    func testItReturnsNilIfTheDirectoryDoesntContainAnXCovFile() {
         fileManager.stubbedContentOfDirectoryBlock = { _ in
             []
         }
 
-        XCTAssertThrowsError(try XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager)) { error in
-            XCTAssertEqual(error.localizedDescription, "Could not find the xccovreport file")
-        }
+        XCTAssertNil(XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager))
     }
 
     func testItReturnsTheCorrectCoverageFile() throws {
@@ -29,6 +27,6 @@ final class XcodeCoverageFileFinderTests: XCTestCase {
             fileName == "xcresultBundlePath" ? ["1_test"] : ["action.xccovreport"]
         }
 
-        XCTAssertEqual(try XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager), "xcresultBundlePath/1_test/action.xccovreport")
+        XCTAssertEqual(XcodeCoverageFileFinder.coverageFile(xcresultBundlePath: "xcresultBundlePath", fileManager: fileManager), "xcresultBundlePath/1_test/action.xccovreport")
     }
 }
