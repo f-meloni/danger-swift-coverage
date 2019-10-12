@@ -32,7 +32,7 @@ matrix:
         - swift build
         - rm -rf build/results
         - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -resultBundlePath build/results -enableCodeCoverage YES
-        - DEBUG="*" swift run danger-swift ci --id customPath --dangerfile CustomPath.swift
+        - DEBUG="*" swift run danger-swift ci --id customPath --dangerfile CustomPath10.swift
         
     - os: osx
       osx_image: xcode10.2
@@ -56,3 +56,15 @@ matrix:
         - rm -rf build/results
         - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -resultBundlePath build/results -enableCodeCoverage YES
         - DEBUG="*" swift run danger-swift ci --id customPath --dangerfile CustomPath.swift
+
+    - os: osx
+      osx_image: xcode11
+      install:
+        - gem install bundler
+        - bundle install
+        - npm install -g danger
+      script:
+        - swift package generate-xcodeproj
+        - swift build
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+        - DEBUG="*" swift run danger-swift ci
