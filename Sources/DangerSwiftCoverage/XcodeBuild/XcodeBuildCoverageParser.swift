@@ -6,17 +6,12 @@ protocol XcodeBuildCoverageParsing {
 
 enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String]) throws -> Report {
-        try coverage(xcresultBundlePath: xcresultBundlePath, files: files, excludedTargets: excludedTargets, coverageFileFinder: XcodeCoverageFileFinder.self, xcCovParser: XcCovJSONParser.self)
+        try coverage(xcresultBundlePath: xcresultBundlePath, files: files, excludedTargets: excludedTargets, xcCovParser: XcCovJSONParser.self)
     }
 
-    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String], coverageFileFinder: XcodeCoverageFileFinding.Type, xcCovParser: XcCovJSONParsing.Type) throws -> Report {
-        if let coverageFile = coverageFileFinder.coverageFile(xcresultBundlePath: xcresultBundlePath) {
-            let data = try xcCovParser.json(fromXCoverageFile: coverageFile)
-            return try report(fromJson: data, files: files, excludedTargets: excludedTargets)
-        } else {
-            let data = try xcCovParser.json(fromXcresultFile: xcresultBundlePath)
-            return try report(fromJson: data, files: files, excludedTargets: excludedTargets)
-        }
+    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String], xcCovParser: XcCovJSONParsing.Type) throws -> Report {
+        let data = try xcCovParser.json(fromXcresultFile: xcresultBundlePath)
+        return try report(fromJson: data, files: files, excludedTargets: excludedTargets)
     }
 
     private static func report(fromJson data: Data, files: [String], excludedTargets: [String]) throws -> Report {

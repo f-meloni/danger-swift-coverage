@@ -31,3 +31,13 @@ enum XcresultBundleFinder: XcresultBundleFinding {
         return xcresult
     }
 }
+
+extension FileManager {
+    func modificationDate(forFileAtPath path: String) -> Date? {
+        guard let attributes = try? attributesOfItem(atPath: path) else {
+            return nil
+        }
+
+        return attributes[.modificationDate] as? Date
+    }
+}

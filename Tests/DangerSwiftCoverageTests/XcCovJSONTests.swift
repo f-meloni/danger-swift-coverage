@@ -2,15 +2,6 @@
 import XCTest
 
 final class XcCovJSONTests: XCTestCase {
-    func testWhenJSONIsFromXcoverageItExectuesTheCorrectCommand() {
-        let executor = SpyShellOutExecutor()
-        let testPath = "test/test.xcodecov"
-        let data = try! XcCovJSONParser.json(fromXCoverageFile: testPath, shellOutExecutor: executor)
-
-        XCTAssertEqual(executor.receivedCommand, "xcrun xccov view \(testPath) --json")
-        XCTAssertEqual(data, executor.testResult.data(using: .utf8))
-    }
-
     func testWhenJSONIsFromXcresultItExectuesTheCorrectCommand() {
         let executor = SpyShellOutExecutor()
         let testPath = "test/test.xcodecov"

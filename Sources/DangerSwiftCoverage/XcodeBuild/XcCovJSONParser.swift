@@ -12,19 +12,10 @@ enum XcCovJSONParserError: LocalizedError {
 }
 
 protocol XcCovJSONParsing {
-    static func json(fromXCoverageFile file: String) throws -> Data
     static func json(fromXcresultFile file: String) throws -> Data
 }
 
 enum XcCovJSONParser: XcCovJSONParsing {
-    static func json(fromXCoverageFile file: String) throws -> Data {
-        try json(fromXCoverageFile: file, shellOutExecutor: ShellOutExecutor())
-    }
-
-    static func json(fromXCoverageFile file: String, shellOutExecutor: ShellOutExecuting) throws -> Data {
-        try jsonData(fromCommand: "xcrun xccov view \(file) --json", shellOutExecutor: shellOutExecutor)
-    }
-
     static func json(fromXcresultFile file: String) throws -> Data {
         try json(fromXcresultFile: file, shellOutExecutor: ShellOutExecutor())
     }

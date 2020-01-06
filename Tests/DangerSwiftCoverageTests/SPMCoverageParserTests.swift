@@ -2,9 +2,15 @@
 import XCTest
 
 final class SPMCoverageParserTests: XCTestCase {
-    func testItDecodesTheJSONCorrectly() throws {
-        let testPath = "test.json"
+    var testPath: String { "test.json" }
 
+    override func tearDown() {
+        try? FileManager.default.removeItem(atPath: testPath)
+
+        super.tearDown()
+    }
+
+    func testItDecodesTheJSONCorrectly() throws {
         try spmCoverageJSON.write(toFile: testPath, atomically: false, encoding: .utf8)
 
         let fileManager = StubbedFileManager()
@@ -25,7 +31,7 @@ final class SPMCoverageParserTests: XCTestCase {
         }
 
         fileManager.stubbedContentOfDirectoryBlock = { _ in
-            [testPath]
+            [self.testPath]
         }
 
         let report = try! SPMCoverageParser.coverage(spmCoverageFolder: ".", files: ["/Users/franco/Projects/Logger/Sources/Logger/Logger.swift"], fileManager: fileManager)
