@@ -6,7 +6,7 @@ protocol XcodeBuildCoverageParsing {
 
 enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String]) throws -> Report {
-        return try coverage(xcresultBundlePath: xcresultBundlePath, files: files, excludedTargets: excludedTargets, coverageFileFinder: XcodeCoverageFileFinder.self, xcCovParser: XcCovJSONParser.self)
+        try coverage(xcresultBundlePath: xcresultBundlePath, files: files, excludedTargets: excludedTargets, coverageFileFinder: XcodeCoverageFileFinder.self, xcCovParser: XcCovJSONParser.self)
     }
 
     static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String], coverageFileFinder: XcodeCoverageFileFinding.Type, xcCovParser: XcCovJSONParsing.Type) throws -> Report {
@@ -18,7 +18,7 @@ enum XcodeBuildCoverageParser: XcodeBuildCoverageParsing {
             return try report(fromJson: data, files: files, excludedTargets: excludedTargets)
         }
     }
-    
+
     private static func report(fromJson data: Data, files: [String], excludedTargets: [String]) throws -> Report {
         var coverage = try JSONDecoder().decode(XcodeBuildCoverage.self, from: data)
         coverage = coverage.filteringTargets(notOn: files, excludedTargets: excludedTargets)

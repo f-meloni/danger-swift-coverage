@@ -10,7 +10,7 @@ final class XcCovJSONTests: XCTestCase {
         XCTAssertEqual(executor.receivedCommand, "xcrun xccov view \(testPath) --json")
         XCTAssertEqual(data, executor.testResult.data(using: .utf8))
     }
-    
+
     func testWhenJSONIsFromXcresultItExectuesTheCorrectCommand() {
         let executor = SpyShellOutExecutor()
         let testPath = "test/test.xcodecov"

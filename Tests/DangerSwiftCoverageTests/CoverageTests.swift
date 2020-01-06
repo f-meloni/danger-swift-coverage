@@ -7,14 +7,14 @@ final class CoverageTests: XCTestCase {
     var dsl: DangerDSL!
 
     var created: [String] {
-        return [
+        [
             ".travis.yml",
             "Tests/Test.swift",
         ]
     }
 
     var modified: [String] {
-        return [
+        [
             "Sources/Coverage.swift",
         ]
     }
@@ -128,7 +128,7 @@ private final class MockSPMCoverageParser: SPMCoverageParsing {
         case fakeError
 
         var errorDescription: String? {
-            return "Fake Error"
+            "Fake Error"
         }
     }
 
@@ -184,7 +184,7 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
         case fakeError
 
         var errorDescription: String? {
-            return "Fake Error"
+            "Fake Error"
         }
     }
 

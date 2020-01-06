@@ -47,7 +47,7 @@ public enum Coverage {
     }
 
     private static func modifiedFilesAbsolutePaths(fileManager: FileManager, danger: DangerDSL) -> [String] {
-        return (danger.git.createdFiles + danger.git.modifiedFiles).map { fileManager.currentDirectoryPath + "/" + $0 }
+        (danger.git.createdFiles + danger.git.modifiedFiles).map { fileManager.currentDirectoryPath + "/" + $0 }
     }
 
     private static func sendReport(_ report: Report, minumumCoverage: Float, danger: DangerDSL) {

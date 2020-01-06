@@ -6,7 +6,7 @@ protocol XcodeCoverageFileFinding {
 
 enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
     static func coverageFile(xcresultBundlePath: String) -> String? {
-        return coverageFile(xcresultBundlePath: xcresultBundlePath, fileManager: .default)
+        coverageFile(xcresultBundlePath: xcresultBundlePath, fileManager: .default)
     }
 
     static func coverageFile(xcresultBundlePath: String, fileManager: FileManager) -> String? {
@@ -20,7 +20,7 @@ enum XcodeCoverageFileFinder: XcodeCoverageFileFinding {
     }
 
     private static func firstCoverageFile(fromXcresultContent xcresultContent: [String]?, fileManager: FileManager) -> String? {
-        return xcresultContent?.lazy.compactMap { directory -> String? in
+        xcresultContent?.lazy.compactMap { directory -> String? in
             (try? fileManager.contentsOfDirectory(atPath: directory).lazy.compactMap { file -> String? in
                 file == "action.xccovreport" ? directory + "/" + file : nil
             })?.first

@@ -9,7 +9,7 @@ enum XcresultBundleFinder: XcresultBundleFinding {
         case xcresultNotFound
 
         var errorDescription: String? {
-            return "Could not find the xcresult file"
+            "Could not find the xcresult file"
         }
     }
 

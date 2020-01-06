@@ -27,15 +27,15 @@ struct SPMCoverageSummary: Decodable {
     private let lines: Lines
 
     var count: Int {
-        return lines.count
+        lines.count
     }
 
     var covered: Int {
-        return lines.covered
+        lines.covered
     }
 
     var percent: Float {
-        return lines.percent
+        lines.percent
     }
 
     struct Lines: Decodable, Equatable {

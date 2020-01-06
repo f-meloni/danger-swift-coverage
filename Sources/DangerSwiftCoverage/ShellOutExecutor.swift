@@ -13,16 +13,16 @@ struct ShellOutExecutor: ShellOutExecuting {
         } else {
             tmpDir = NSTemporaryDirectory()
         }
-        
+
         let file = tmpDir + "/file"
         defer {
             try? FileManager.default.removeItem(atPath: file)
         }
-        
+
         ShellExecutor().execute(command + " > \(file)", arguments: [])
-        
+
         print(command + " > \(file)")
-        
+
         return try NSData(contentsOfFile: file) as Data
     }
 }
