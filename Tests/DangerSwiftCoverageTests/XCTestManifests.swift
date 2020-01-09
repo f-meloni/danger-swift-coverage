@@ -50,6 +50,7 @@
             ("testItCorrectlyParsesTheXcresult", testItCorrectlyParsesTheXcresult),
             ("testItFiltersTheEmptyTargets", testItFiltersTheEmptyTargets),
             ("testItFiltersTheExcludedTarget", testItFiltersTheExcludedTarget),
+            ("testItHidesProjectCoverage", testItHidesProjectCoverage),
             ("testItReturnsTheCoverageWhenThereAreNoTargets", testItReturnsTheCoverageWhenThereAreNoTargets),
             ("testWhenXcresultFileIsInvalidThrowsAnError", testWhenXcresultFileIsInvalidThrowsAnError),
         ]

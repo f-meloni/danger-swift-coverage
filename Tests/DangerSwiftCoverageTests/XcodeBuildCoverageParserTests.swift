@@ -13,6 +13,17 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
         MockedXcCovJSONParser.xcresultResult = nil
     }
 
+    func testItHidesProjectCoverage() throws {
+        let files = ["/Users/franco/Projects/swift/Sources/Danger/BitBucketServerDSL.swift",
+                     "/Users/franco/Projects/swift/Sources/Danger/Danger.swift",
+                     "/Users/franco/Projects/swift/Sources/RunnerLib/Files Import/ImportsFinder.swift",
+                     "/Users/franco/Projects/swift/Sources/RunnerLib/HelpMessagePresenter.swift"]
+
+        let result = try XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [], hideProjectCoverage: true, xcCovParser: MockedXcCovJSONParser.self)
+
+        XCTAssertTrue(result.messages.isEmpty)
+    }
+
     func testItFiltersTheExcludedTarget() throws {
         let files = ["/Users/franco/Projects/swift/Sources/Danger/BitBucketServerDSL.swift",
                      "/Users/franco/Projects/swift/Sources/Danger/Danger.swift",
