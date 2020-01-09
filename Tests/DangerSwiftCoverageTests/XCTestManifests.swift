@@ -51,6 +51,7 @@ extension XcodeBuildCoverageParserTests {
         ("testItFiltersTheEmptyTargets", testItFiltersTheEmptyTargets),
         ("testItFiltersTheExcludedTarget", testItFiltersTheExcludedTarget),
         ("testItParsesTheJSONCorrectly", testItParsesTheJSONCorrectly),
+        ("testItHidesProjectCoverage", testItHidesProjectCoverage),
         ("testItReturnsTheCoverageWhenThereAreNoTargets", testItReturnsTheCoverageWhenThereAreNoTargets),
         ("testWhenThereIsNoXcoverageFileUsesXcresult", testWhenThereIsNoXcoverageFileUsesXcresult),
         ("testWhenXcoverageFileIsInvalidThrowsAnError", testWhenXcoverageFileIsInvalidThrowsAnError),

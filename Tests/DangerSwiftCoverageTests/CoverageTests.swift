@@ -201,7 +201,7 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
                                        ]),
                                    ])
 
-    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String]) throws -> Report {
+    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String], hideProjectCoverage hidesProjectCoverage: Bool) throws -> Report {
         receivedFiles = files
         receivedXcresultBundlePath = xcresultBundlePath
         receivedExcludedTargets = excludedTargets
