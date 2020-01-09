@@ -37,8 +37,8 @@ matrix:
         - bundle install
         - npm install -g danger
       script:
-	- swift package generate-xcodeproj
-	- xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -resultBundlePath build/results -enableCodeCoverage YES
+        - swift package generate-xcodeproj
+        - xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -resultBundlePath build/results -enableCodeCoverage YES
         - DEBUG="*" swift run danger-swift ci --id customPath --dangerfile CustomPath.swift
         
     - os: linux
