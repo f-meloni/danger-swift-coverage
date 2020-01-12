@@ -10,7 +10,7 @@ final class StubbedFileManager: FileManager {
     var stubbedAttributesOfItemBlock: ((String) -> [FileAttributeKey: Any])?
 
     override var currentDirectoryPath: String {
-        return currentPathBlock()
+        currentPathBlock()
     }
 
     override func contentsOfDirectory(atPath path: String) throws -> [String] {
@@ -22,6 +22,6 @@ final class StubbedFileManager: FileManager {
     }
 
     override func attributesOfItem(atPath path: String) throws -> [FileAttributeKey: Any] {
-        return stubbedAttributesOfItemBlock?(path) ?? [.modificationDate: Date()]
+        stubbedAttributesOfItemBlock?(path) ?? [.modificationDate: Date()]
     }
 }

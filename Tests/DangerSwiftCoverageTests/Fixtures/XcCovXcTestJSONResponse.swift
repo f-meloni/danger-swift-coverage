@@ -1,4 +1,4 @@
-let XcCovXcTestJSONResponse = """
+let XcresultJSONResponse = """
 
 {
 	"coveredLines": 294,

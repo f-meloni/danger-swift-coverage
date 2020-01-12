@@ -9,7 +9,7 @@ enum XcresultBundleFinder: XcresultBundleFinding {
         case xcresultNotFound
 
         var errorDescription: String? {
-            return "Could not find the xcresult file"
+            "Could not find the xcresult file"
         }
     }
 
@@ -29,5 +29,15 @@ enum XcresultBundleFinder: XcresultBundleFinding {
         }).first!
 
         return xcresult
+    }
+}
+
+extension FileManager {
+    func modificationDate(forFileAtPath path: String) -> Date? {
+        guard let attributes = try? attributesOfItem(atPath: path) else {
+            return nil
+        }
+
+        return attributes[.modificationDate] as? Date
     }
 }

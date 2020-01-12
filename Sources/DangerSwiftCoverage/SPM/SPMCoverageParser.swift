@@ -10,7 +10,7 @@ enum SPMCoverageParser: SPMCoverageParsing {
     }
 
     static func coverage(spmCoverageFolder: String, files: [String]) throws -> Report {
-        return try coverage(spmCoverageFolder: spmCoverageFolder, files: files, fileManager: .default)
+        try coverage(spmCoverageFolder: spmCoverageFolder, files: files, fileManager: .default)
     }
 
     static func coverage(spmCoverageFolder: String, files: [String], fileManager: FileManager) throws -> Report {

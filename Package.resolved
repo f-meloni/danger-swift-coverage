@@ -6,26 +6,26 @@
         "repositoryURL": "https://github.com/Carthage/Commandant.git",
         "state": {
           "branch": null,
-          "revision": "2cd0210f897fe46c6ce42f52ccfa72b3bbb621a0",
-          "version": "0.16.0"
+          "revision": "ab68611013dec67413628ac87c1f29e8427bc8e4",
+          "version": "0.17.0"
         }
       },
       {
-        "package": "DangerXCodeSummary",
-        "repositoryURL": "https://github.com/f-meloni/danger-swift-xcodesummary",
+        "package": "CwlCatchException",
+        "repositoryURL": "https://github.com/mattgallagher/CwlCatchException.git",
         "state": {
           "branch": null,
-          "revision": "fb862e5ae91f3efe197874afdcee85a09eafe8ed",
-          "version": "1.0.0"
+          "revision": "7cd2f8cacc4d22f21bc0b2309c3b18acf7957b66",
+          "version": "1.2.0"
         }
       },
       {
-        "package": "Files",
-        "repositoryURL": "https://github.com/JohnSundell/Files.git",
+        "package": "CwlPreconditionTesting",
+        "repositoryURL": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
         "state": {
           "branch": null,
-          "revision": "a84615f4558151fab52ac38df697ce2442991f93",
-          "version": "2.3.0"
+          "revision": "c228db5d2ad1b01ebc84435e823e6cca4e3db98b",
+          "version": "1.2.0"
         }
       },
       {
@@ -38,12 +38,12 @@
         }
       },
       {
-        "package": "Marathon",
-        "repositoryURL": "https://github.com/JohnSundell/Marathon",
+        "package": "Logger",
+        "repositoryURL": "https://github.com/shibapm/Logger",
         "state": {
           "branch": null,
-          "revision": "582505bbd8e782c7d8812f4c6d356ad19d5222a8",
-          "version": "3.2.0"
+          "revision": "53c3ecca5abe8cf46697e33901ee774236d94cce",
+          "version": "0.2.3"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/Quick/Nimble.git",
         "state": {
           "branch": null,
-          "revision": "f8657642dfdec9973efc79cc68bcef43a653a2bc",
-          "version": "8.0.2"
+          "revision": "b02b00b30b6353632aa4a5fb6124f8147f7140c0",
+          "version": "8.0.5"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/nerdishbynature/octokit.swift",
         "state": {
           "branch": null,
-          "revision": "b63f2ec1b55f26c8e94159d81ad695aeb92f3d4e",
-          "version": "0.9.0"
+          "revision": "9ad4d6eff94ad1d9873d3b410a47c663c820d4bd",
+          "version": "0.10.0"
         }
       },
       {
@@ -69,17 +69,8 @@
         "repositoryURL": "https://github.com/Quick/Quick.git",
         "state": {
           "branch": null,
-          "revision": "94df9b449508344667e5afc7e80f8bcbff1e4c37",
-          "version": "2.1.0"
-        }
-      },
-      {
-        "package": "Releases",
-        "repositoryURL": "https://github.com/JohnSundell/Releases.git",
-        "state": {
-          "branch": null,
-          "revision": "ea62f33a429185b0ed21344c2355862c5bc4fcce",
-          "version": "4.0.0"
+          "revision": "33682c2f6230c60614861dfc61df267e11a1602f",
+          "version": "2.2.0"
         }
       },
       {
@@ -87,26 +78,8 @@
         "repositoryURL": "https://github.com/nerdishbynature/RequestKit.git",
         "state": {
           "branch": null,
-          "revision": "defcc7cb005995f261b47e357874a539f3b5c679",
-          "version": "2.3.0"
-        }
-      },
-      {
-        "package": "Require",
-        "repositoryURL": "https://github.com/JohnSundell/Require.git",
-        "state": {
-          "branch": null,
-          "revision": "7cfbd0d8a2dede0e01f6f0d8ab2c7acef1df112e",
-          "version": "2.0.1"
-        }
-      },
-      {
-        "package": "Result",
-        "repositoryURL": "https://github.com/antitypical/Result.git",
-        "state": {
-          "branch": null,
-          "revision": "2ca499ba456795616fbc471561ff1d963e6ae160",
-          "version": "4.1.0"
+          "revision": "fd5e9e99aada7432170366c9e95967011ce13bad",
+          "version": "2.4.0"
         }
       },
       {
@@ -114,8 +87,8 @@
         "repositoryURL": "https://github.com/f-meloni/Rocket",
         "state": {
           "branch": null,
-          "revision": "f75c9736733b489a3456b4f3a47cf13adb99f197",
-          "version": "0.9.2"
+          "revision": "623cb4ccf55d708d082516ccd5cfea3dac8f9032",
+          "version": "1.0.0"
         }
       },
       {
@@ -123,8 +96,8 @@
         "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
         "state": {
           "branch": null,
-          "revision": "d3d54ce662dfee7fef619330b71d251b8d4869f9",
-          "version": "2.2.0"
+          "revision": "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
+          "version": "2.3.0"
         }
       },
       {
@@ -132,8 +105,8 @@
         "repositoryURL": "https://github.com/jpsim/SourceKitten.git",
         "state": {
           "branch": null,
-          "revision": "35c9e0e437592661a51b160d80a4feaa5d4630d1",
-          "version": "0.24.0"
+          "revision": "97b5848e5692150d75b5cf0b81d7ebef5f4d5071",
+          "version": "0.28.0"
         }
       },
       {
@@ -141,8 +114,8 @@
         "repositoryURL": "https://github.com/danger/swift.git",
         "state": {
           "branch": null,
-          "revision": "00ab2984490b706cf0763a14f90c52555a23eb92",
-          "version": "2.0.0"
+          "revision": "9abfbf269f7b1d4bb799ca8f52620180d63d953e",
+          "version": "3.0.0"
         }
       },
       {
@@ -150,8 +123,8 @@
         "repositoryURL": "https://github.com/nicklockwood/SwiftFormat",
         "state": {
           "branch": null,
-          "revision": "0708f1eefe0a2ce2aa42fc3ff86125cdb751e63c",
-          "version": "0.40.10"
+          "revision": "d9b7cf39e06e89428004a767d97006fb6d293c53",
+          "version": "0.43.5"
         }
       },
       {
@@ -159,8 +132,8 @@
         "repositoryURL": "https://github.com/Realm/SwiftLint",
         "state": {
           "branch": null,
-          "revision": "08946e65e5888797e588ecb23f80b16a129bf4bd",
-          "version": "0.34.0"
+          "revision": "76d44cff391645a7f4d5ba2bf1853afaf3f5c1fb",
+          "version": "0.38.2"
         }
       },
       {
@@ -168,8 +141,8 @@
         "repositoryURL": "https://github.com/kareman/SwiftShell",
         "state": {
           "branch": null,
-          "revision": "beebe43c986d89ea5359ac3adcb42dac94e5e08a",
-          "version": "4.1.2"
+          "revision": "fb7fc2c9ad8811caf324431a508fb79e3fb74f99",
+          "version": "5.0.1"
         }
       },
       {
@@ -186,8 +159,17 @@
         "repositoryURL": "https://github.com/drmohundro/SWXMLHash.git",
         "state": {
           "branch": null,
-          "revision": "f43166a8e18fdd0857f29e303b1bb79a5428bca0",
-          "version": "4.9.0"
+          "revision": "a4931e5c3bafbedeb1601d3bb76bbe835c6d475a",
+          "version": "5.0.1"
+        }
+      },
+      {
+        "package": "Version",
+        "repositoryURL": "https://github.com/mxcl/Version",
+        "state": {
+          "branch": null,
+          "revision": "200046c93f6d5d78a6d72bfd9c0b27a95e9c0a2b",
+          "version": "1.2.0"
         }
       }
     ]
