@@ -29,24 +29,6 @@
         }
       },
       {
-        "package": "DangerXCodeSummary",
-        "repositoryURL": "https://github.com/f-meloni/danger-swift-xcodesummary",
-        "state": {
-          "branch": null,
-          "revision": "fb862e5ae91f3efe197874afdcee85a09eafe8ed",
-          "version": "1.0.0"
-        }
-      },
-      {
-        "package": "Files",
-        "repositoryURL": "https://github.com/JohnSundell/Files.git",
-        "state": {
-          "branch": null,
-          "revision": "a84615f4558151fab52ac38df697ce2442991f93",
-          "version": "2.3.0"
-        }
-      },
-      {
         "package": "Komondor",
         "repositoryURL": "https://github.com/orta/Komondor",
         "state": {
@@ -56,12 +38,12 @@
         }
       },
       {
-        "package": "Marathon",
-        "repositoryURL": "https://github.com/JohnSundell/Marathon",
+        "package": "Logger",
+        "repositoryURL": "https://github.com/shibapm/Logger",
         "state": {
           "branch": null,
-          "revision": "35b672e05ac411fb104e462fbfd6541f995abc17",
-          "version": "3.3.0"
+          "revision": "53c3ecca5abe8cf46697e33901ee774236d94cce",
+          "version": "0.2.3"
         }
       },
       {
@@ -92,15 +74,6 @@
         }
       },
       {
-        "package": "Releases",
-        "repositoryURL": "https://github.com/JohnSundell/Releases.git",
-        "state": {
-          "branch": null,
-          "revision": "ea62f33a429185b0ed21344c2355862c5bc4fcce",
-          "version": "4.0.0"
-        }
-      },
-      {
         "package": "RequestKit",
         "repositoryURL": "https://github.com/nerdishbynature/RequestKit.git",
         "state": {
@@ -110,21 +83,12 @@
         }
       },
       {
-        "package": "Require",
-        "repositoryURL": "https://github.com/JohnSundell/Require.git",
-        "state": {
-          "branch": null,
-          "revision": "7cfbd0d8a2dede0e01f6f0d8ab2c7acef1df112e",
-          "version": "2.0.1"
-        }
-      },
-      {
         "package": "Rocket",
         "repositoryURL": "https://github.com/f-meloni/Rocket",
         "state": {
           "branch": null,
-          "revision": "f75c9736733b489a3456b4f3a47cf13adb99f197",
-          "version": "0.9.2"
+          "revision": "623cb4ccf55d708d082516ccd5cfea3dac8f9032",
+          "version": "1.0.0"
         }
       },
       {
@@ -132,8 +96,8 @@
         "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
         "state": {
           "branch": null,
-          "revision": "4ebf25863deb9c3c02696704fc3d39736183f258",
-          "version": "2.2.1"
+          "revision": "e1577acf2b6e90086d01a6d5e2b8efdaae033568",
+          "version": "2.3.0"
         }
       },
       {
@@ -150,8 +114,8 @@
         "repositoryURL": "https://github.com/danger/swift.git",
         "state": {
           "branch": null,
-          "revision": "74b552511bee69051ec23347177d1e5ab6e2510a",
-          "version": "2.0.7"
+          "revision": "9abfbf269f7b1d4bb799ca8f52620180d63d953e",
+          "version": "3.0.0"
         }
       },
       {
@@ -168,8 +132,8 @@
         "repositoryURL": "https://github.com/Realm/SwiftLint",
         "state": {
           "branch": null,
-          "revision": "6f6c9fed8c9eba586c2f1acb751b0f769ee4994f",
-          "version": "0.38.1"
+          "revision": "76d44cff391645a7f4d5ba2bf1853afaf3f5c1fb",
+          "version": "0.38.2"
         }
       },
       {
@@ -177,8 +141,8 @@
         "repositoryURL": "https://github.com/kareman/SwiftShell",
         "state": {
           "branch": null,
-          "revision": "beebe43c986d89ea5359ac3adcb42dac94e5e08a",
-          "version": "4.1.2"
+          "revision": "fb7fc2c9ad8811caf324431a508fb79e3fb74f99",
+          "version": "5.0.1"
         }
       },
       {
@@ -197,6 +161,15 @@
           "branch": null,
           "revision": "a4931e5c3bafbedeb1601d3bb76bbe835c6d475a",
           "version": "5.0.1"
+        }
+      },
+      {
+        "package": "Version",
+        "repositoryURL": "https://github.com/mxcl/Version",
+        "state": {
+          "branch": null,
+          "revision": "200046c93f6d5d78a6d72bfd9c0b27a95e9c0a2b",
+          "version": "1.2.0"
         }
       }
     ]
