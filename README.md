@@ -74,7 +74,7 @@ xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath Build/ -ena
 ### Custom XCResultBundle path
 If you are using the `-resultBundlePath` parameter on `xcodebuild` you will need to use:
 ```
-Coverage.xcodeBuildCoverage(.xcresultBundle("Build/bundlePath"), 
+Coverage.xcodeBuildCoverage(.xcresultBundle("Build/bundlePath.xcresult"), 
                             minimumCoverage: 50, 
                             excludedTargets: ["DangerSwiftCoverageTests.xctest"])
 ```
