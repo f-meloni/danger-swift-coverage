@@ -40,12 +40,12 @@ final class CoverageTests: XCTestCase {
         dsl = githubWithFilesDSL(created: created, modified: modified)
 
         let currentPathProvider = StubbedFileManager()
-        let excluedTargets = ["TargetA.framework", "TargetB.framework"]
+        let excludedTargets: [ExcludedTarget] = [.exact("TargetA.framework"), .exact("TargetB.framework")]
 
-        Coverage.xcodeBuildCoverage(.derivedDataFolder("derived"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.derivedDataFolder("derived"), minimumCoverage: 50, excludedTargets: excludedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedXcresultBundlePath, FakeXcodeResultBundleFinder.result)
-        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excluedTargets)
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excludedTargets)
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
     }
 
@@ -53,12 +53,12 @@ final class CoverageTests: XCTestCase {
         dsl = githubWithFilesDSL(created: created, modified: modified)
 
         let currentPathProvider = StubbedFileManager()
-        let excluedTargets = ["TargetA.framework", "TargetB.framework"]
+        let excludedTargets: [ExcludedTarget] = [.exact("TargetA.framework"), .exact("TargetB.framework")]
 
-        Coverage.xcodeBuildCoverage(.xcresultBundle("custom"), minimumCoverage: 50, excludedTargets: excluedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
+        Coverage.xcodeBuildCoverage(.xcresultBundle("custom"), minimumCoverage: 50, excludedTargets: excludedTargets, fileManager: currentPathProvider, xcodeBuildCoverageParser: MockXcodeBuildCoverageParser.self, xcresultFinder: FakeXcodeResultBundleFinder.self, danger: dsl)
 
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedXcresultBundlePath, "custom")
-        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excluedTargets)
+        XCTAssertEqual(MockXcodeBuildCoverageParser.receivedExcludedTargets, excludedTargets)
         XCTAssertEqual(MockXcodeBuildCoverageParser.receivedFiles, (created + modified).map { currentPathProvider.fakePath + "/" + $0 })
     }
 
@@ -176,7 +176,7 @@ private final class FakeXcodeResultBundleFinder: XcresultBundleFinding {
 private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
     static var receivedFiles: [String]!
     static var receivedXcresultBundlePath: String!
-    static var receivedExcludedTargets: [String]!
+    static var receivedExcludedTargets: [ExcludedTarget]!
 
     static var shouldSucceed = false
 
@@ -201,7 +201,7 @@ private final class MockXcodeBuildCoverageParser: XcodeBuildCoverageParsing {
                                        ]),
                                    ])
 
-    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [String], hideProjectCoverage _: Bool) throws -> Report {
+    static func coverage(xcresultBundlePath: String, files: [String], excludedTargets: [ExcludedTarget], hideProjectCoverage _: Bool) throws -> Report {
         receivedFiles = files
         receivedXcresultBundlePath = xcresultBundlePath
         receivedExcludedTargets = excludedTargets
