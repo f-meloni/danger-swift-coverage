@@ -30,7 +30,27 @@ final class XcodeBuildCoverageParserTests: XCTestCase {
                      "/Users/franco/Projects/swift/Sources/RunnerLib/Files Import/ImportsFinder.swift",
                      "/Users/franco/Projects/swift/Sources/RunnerLib/HelpMessagePresenter.swift"]
 
-        let result = try XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: ["RunnerLib.xctest"], xcCovParser: MockedXcCovJSONParser.self)
+        let result = try XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [.exact("RunnerLib.xctest")], xcCovParser: MockedXcCovJSONParser.self)
+
+        XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
+
+        let firstSection = result.sections[0]
+        XCTAssertEqual(firstSection.titleText, "Danger.framework: Coverage: 43.44")
+        XCTAssertEqual(firstSection.items, [
+            ReportFile(fileName: "BitBucketServerDSL.swift", coverage: 100),
+            ReportFile(fileName: "Danger.swift", coverage: 0),
+        ])
+
+        XCTAssertEqual(result.sections.count, 1)
+    }
+
+    func testItFiltersTheExcludedTargetByRegexp() throws {
+        let files = ["/Users/franco/Projects/swift/Sources/Danger/BitBucketServerDSL.swift",
+                     "/Users/franco/Projects/swift/Sources/Danger/Danger.swift",
+                     "/Users/franco/Projects/swift/Sources/RunnerLib/Files Import/ImportsFinder.swift",
+                     "/Users/franco/Projects/swift/Sources/RunnerLib/HelpMessagePresenter.swift"]
+
+        let result = try XcodeBuildCoverageParser.coverage(xcresultBundlePath: "derived", files: files, excludedTargets: [.regex("\\.xctest$")], xcCovParser: MockedXcCovJSONParser.self)
 
         XCTAssertEqual(result.messages, ["Project coverage: 50.09%"])
 

@@ -17,10 +17,15 @@ public enum Coverage {
     }
 
     public static func xcodeBuildCoverage(_ coveragePathType: CoveragePathType, minimumCoverage: Float, excludedTargets: [String] = [], hideProjectCoverage: Bool = false) {
+        let exactExcludedTargets = excludedTargets.map(ExcludedTarget.exact)
+        xcodeBuildCoverage(coveragePathType, minimumCoverage: minimumCoverage, excludedTargets: exactExcludedTargets, hideProjectCoverage: hideProjectCoverage, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, xcresultFinder: XcresultBundleFinder.self, danger: Danger())
+    }
+
+    public static func xcodeBuildCoverage(_ coveragePathType: CoveragePathType, minimumCoverage: Float, excludedTargets: [ExcludedTarget] = [], hideProjectCoverage: Bool = false) {
         xcodeBuildCoverage(coveragePathType, minimumCoverage: minimumCoverage, excludedTargets: excludedTargets, hideProjectCoverage: hideProjectCoverage, fileManager: .default, xcodeBuildCoverageParser: XcodeBuildCoverageParser.self, xcresultFinder: XcresultBundleFinder.self, danger: Danger())
     }
 
-    static func xcodeBuildCoverage(_ coveragePathType: CoveragePathType, minimumCoverage: Float, excludedTargets: [String], hideProjectCoverage: Bool = false, fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, xcresultFinder: XcresultBundleFinding.Type, danger: DangerDSL) {
+    static func xcodeBuildCoverage(_ coveragePathType: CoveragePathType, minimumCoverage: Float, excludedTargets: [ExcludedTarget], hideProjectCoverage: Bool = false, fileManager: FileManager, xcodeBuildCoverageParser: XcodeBuildCoverageParsing.Type, xcresultFinder: XcresultBundleFinding.Type, danger: DangerDSL) {
         let paths = modifiedFilesAbsolutePaths(fileManager: fileManager, danger: danger)
 
         do {
