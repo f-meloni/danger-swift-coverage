@@ -11,19 +11,19 @@ let package = Package(
             name: "DangerSwiftCoverage",
             targets: ["DangerSwiftCoverage"]
         ),
-        .library(name: "DangerDeps", type: .dynamic, targets: ["DangerDependencies"]), // dev
+//        .library(name: "DangerDeps", type: .dynamic, targets: ["DangerDependencies"]), // dev
     ],
     dependencies: [
         .package(url: "https://github.com/danger/swift.git", from: "3.0.0"),
         // Dev dependencies
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.35.8"), // dev
-        .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1"), // dev
-        .package(url: "https://github.com/f-meloni/Rocket", from: "1.0.0"), // dev
-        .package(url: "https://github.com/orta/Komondor", from: "1.0.0"), // dev
-        .package(url: "https://github.com/f-meloni/danger-swift-xcodesummary", from: "1.0.0"), // dev
+//        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.35.8"), // dev
+//        .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1"), // dev
+//        .package(url: "https://github.com/f-meloni/Rocket", from: "1.0.0"), // dev
+//        .package(url: "https://github.com/orta/Komondor", from: "1.0.0"), // dev
+//        .package(url: "https://github.com/f-meloni/danger-swift-xcodesummary", from: "1.0.0"), // dev
     ],
     targets: [
-        .target(name: "DangerDependencies", dependencies: ["Danger", "DangerSwiftCoverage", "DangerXCodeSummary"]), // dev
+//        .target(name: "DangerDependencies", dependencies: ["Danger", "DangerSwiftCoverage", "DangerXCodeSummary"]), // dev
         .target(
             name: "DangerSwiftCoverage",
             dependencies: ["Danger"]
