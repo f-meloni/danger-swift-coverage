@@ -1,0 +1,15 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: macos-11
+    steps:
+    - uses: actions/checkout@v2
+    - run: gem install bundler
+    - run: bundle install
+    - run: npm install -g danger
+    - run: swift package generate-xcodeproj
+    - run: xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+    - run: DEBUG="*" swift run danger-swift ci
