@@ -17,11 +17,12 @@ enum XcresultBundleFinder: XcresultBundleFinding {
         let testFolder = derivedDataFolder + "/Logs/Test/"
 
         guard let xcresults = try? fileManager.contentsOfDirectory(atPath: testFolder).filter({ $0.split(separator: ".").last == "xcresult" }),
-            !xcresults.isEmpty else {
+              !xcresults.isEmpty
+        else {
             throw Errors.xcresultNotFound
         }
 
-        let xcresult = testFolder + xcresults.sorted(by: { (left, right) -> Bool in
+        let xcresult = testFolder + xcresults.sorted(by: { left, right -> Bool in
             let leftModificationDate = fileManager.modificationDate(forFileAtPath: testFolder + left)?.timeIntervalSince1970 ?? 0
             let rightModificationDate = fileManager.modificationDate(forFileAtPath: testFolder + right)?.timeIntervalSince1970 ?? 0
 
