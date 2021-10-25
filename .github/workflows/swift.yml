@@ -10,8 +10,7 @@ jobs:
     - run: gem install bundler
     - run: bundle install
     - run: npm install -g danger
-    - run: swift package generate-xcodeproj
-    - run: xcodebuild test -scheme DangerSwiftCoverage-Package -derivedDataPath build/ -enableCodeCoverage YES | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+    - run: set -o pipefail env NSUnbufferedIO=YES xcodebuild -scheme DangerSwiftCoverage-Package -enableCodeCoverage YES -derivedDataPath build/ build test | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
     - run: DEBUG="*" swift run danger-swift ci
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
