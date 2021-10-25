@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -14,23 +14,29 @@ let package = Package(
         .library(name: "DangerDeps", type: .dynamic, targets: ["DangerDependencies"]), // dev
     ],
     dependencies: [
-        .package(url: "https://github.com/danger/swift.git", from: "3.0.0"),
+        .package(name: "danger-swift", url: "https://github.com/danger/swift.git", from: "3.0.0"),
         // Dev dependencies
         .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.35.8"), // dev
         .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1"), // dev
         .package(url: "https://github.com/f-meloni/Rocket", from: "1.0.0"), // dev
         .package(url: "https://github.com/orta/Komondor", from: "1.0.0"), // dev
-        .package(url: "https://github.com/f-meloni/danger-swift-xcodesummary", from: "1.0.0"), // dev
+        .package(name: "DangerXCodeSummary", url: "https://github.com/f-meloni/danger-swift-xcodesummary", from: "1.0.0"), // dev
     ],
     targets: [
-        .target(name: "DangerDependencies", dependencies: ["Danger", "DangerSwiftCoverage", "DangerXCodeSummary"]), // dev
+        .target(name: "DangerDependencies", dependencies: [
+            .product(name: "Danger", package: "danger-swift"),
+            "DangerSwiftCoverage",
+            "DangerXCodeSummary",
+        ]), // dev
         .target(
             name: "DangerSwiftCoverage",
-            dependencies: ["Danger"]
+            dependencies: [
+                .product(name: "Danger", package: "danger-swift"),
+            ]
         ),
         .testTarget(
             name: "DangerSwiftCoverageTests",
-            dependencies: ["DangerSwiftCoverage", "DangerFixtures"]
+            dependencies: ["DangerSwiftCoverage", .product(name: "DangerFixtures", package: "danger-swift")]
         ),
     ]
 )

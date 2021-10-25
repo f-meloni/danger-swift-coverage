@@ -1,0 +1,16 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: macos-11
+    steps:
+    - uses: actions/checkout@v2
+    - run: gem install bundler
+    - run: bundle install
+    - run: npm install -g danger
+    - run: set -o pipefail env NSUnbufferedIO=YES xcodebuild -scheme DangerSwiftCoverage-Package -destination 'platform=macOS' -clonedSourcePackagesDirPath ~/.build -enableCodeCoverage YES -derivedDataPath build/ build test | XCPRETTY_JSON_FILE_OUTPUT=result.json xcpretty -f `xcpretty-json-formatter`
+    - run: DEBUG="*" swift run danger-swift ci
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
