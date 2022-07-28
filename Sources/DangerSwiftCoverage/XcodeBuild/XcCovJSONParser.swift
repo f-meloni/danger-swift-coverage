@@ -21,7 +21,7 @@ enum XcCovJSONParser: XcCovJSONParsing {
     }
 
     static func json(fromXcresultFile file: String, shellOutExecutor: ShellOutExecuting) throws -> Data {
-        try jsonData(fromCommand: "xcrun xccov view --report --json \(file)", shellOutExecutor: shellOutExecutor)
+        try jsonData(fromCommand: "xcrun xccov view --report --json \"\(file)\"", shellOutExecutor: shellOutExecutor)
     }
 
     private static func jsonData(fromCommand command: String, shellOutExecutor: ShellOutExecuting) throws -> Data {
